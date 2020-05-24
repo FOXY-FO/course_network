@@ -1,0 +1,28 @@
+.navBar {
+  grid-area: nav;
+  background-color: palevioletred;
+  padding: 1rem;
+
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  ul {
+    display: block;
+  }
+
+  .item {
+    a {
+      display: block;
+      padding: 0.25rem 0;
+      color: white;
+
+      &.active {
+        color: black;
+      }
+    }
+  }
+}

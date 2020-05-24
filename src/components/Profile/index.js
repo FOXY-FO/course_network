@@ -1,16 +1,13 @@
 import React from "react"
+import MyPosts from "../MyPosts"
 
 const Profile = () => {
   return (
-    <main className="main">
+    <>
       <div>top img</div>
       <div>ava + descr</div>
-      <div>
-        my posts
-        <div>new post</div>
-        <div>posts</div>
-      </div>
-    </main>
+      <MyPosts />
+    </>
   )
 }
 
