@@ -1,11 +1,11 @@
 import React from "react"
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom"
 
-import routes from "./routes"
+import routes from "../../routes"
 import "./App.scss"
 
-import Header from "./components/Header"
-import NavBar from "./components/NavBar"
+import Header from "../UI/Header/Header"
+import NavBar from "../UI/NavBar/NavBar"
 
 function App() {
   return (

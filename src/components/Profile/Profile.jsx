@@ -1,5 +1,5 @@
 import React from "react"
-import MyPosts from "../MyPosts"
+import MyPosts from "./MyPosts/MyPosts"
 
 const Profile = () => {
   return (

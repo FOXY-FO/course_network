@@ -1,6 +1,6 @@
 import React from "react"
 import styles from "./Dialogs.module.scss"
-import UserItem from "./UserItem"
+import UserItem from "./UserItem/UserItem"
 
 const Dialogs = () => {
   const users = [

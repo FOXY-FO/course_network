@@ -1,6 +1,6 @@
 import React from "react"
-import Post from "../Post"
-import NewPost from "../NewPost"
+import Post from "../../UI/Post/Post"
+import NewPost from "../../UI/NewPost/NewPost"
 
 const MyPosts = () => {
   return (
