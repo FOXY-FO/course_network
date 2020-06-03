@@ -2,14 +2,16 @@ import React from "react"
 import Post from "../../UI/Post/Post"
 import NewPost from "../../UI/NewPost/NewPost"
 
-const MyPosts = () => {
+const MyPosts = ({ posts }) => {
   return (
     <div>
-      my posts
       <NewPost />
       <div>
-        <Post>Hey, what's up?!</Post>
-        <Post>What up!</Post>
+        {posts.map(({ id, text, likes }) => (
+          <Post key={id} likes={likes}>
+            {text}
+          </Post>
+        ))}
       </div>
     </div>
   )

@@ -1,35 +1,21 @@
 import React from "react"
 import styles from "./Dialogs.module.scss"
-import UserItem from "./UserItem/UserItem"
+import UserItem from "./DialogItem/DialogItem"
+import Message from "./Message/Message"
 
-const Dialogs = () => {
-  const users = [
-    {
-      id: 1,
-      name: "Vlad",
-    },
-    {
-      id: 2,
-      name: "Alina",
-    },
-    {
-      id: 3,
-      name: "Liza",
-    },
-  ]
-
+const Dialogs = ({ dialogsPage }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.wrapperItem}>
-        {users.map(({ id, name }) => (
+        {dialogsPage.users.map(({ id, name }) => (
           <UserItem key={id} name={name} />
         ))}
       </div>
       <div className={styles.wrapperItem}>
         <div className={styles.messages}>
-          <div className={styles.message}>Hi</div>
-          <div className={styles.message}>How are you?</div>
-          <div className={styles.message}>I'm fine, thank you</div>
+          {dialogsPage.messages.map(({ id, text }) => (
+            <Message key={id}>{text}</Message>
+          ))}
         </div>
         <textarea></textarea>
         <button>Add</button>

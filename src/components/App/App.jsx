@@ -1,13 +1,17 @@
 import React from "react"
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom"
 
-import routes from "../../routes"
 import "./App.scss"
 
 import Header from "../UI/Header/Header"
 import NavBar from "../UI/NavBar/NavBar"
+import Profile from "../Profile/Profile"
+import Dialogs from "../Dialogs/Dialogs"
+import News from "../News/News"
+import Music from "../Music/Music"
+import Settings from "../Settings/Settings"
 
-function App() {
+const App = ({ state }) => {
   return (
     <Router>
       <div className="app-wrapper">
@@ -16,9 +20,19 @@ function App() {
 
         <main className="main">
           <Switch>
-            {routes.map(({ id, route, Component }) => (
-              <Route key={id} path={route} render={() => <Component />} />
-            ))}
+            <Route
+              exact
+              path="/profile"
+              render={() => <Profile profilePage={state.profilePage} />}
+            />
+            <Route
+              exact
+              path="/dialogs"
+              render={() => <Dialogs dialogsPage={state.dialogsPage} />}
+            />
+            <Route exact path="/news" component={News} />
+            <Route exact path="/music" component={Music} />
+            <Route exact path="/settings" component={Settings} />
           </Switch>
         </main>
       </div>

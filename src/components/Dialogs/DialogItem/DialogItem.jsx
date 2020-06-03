@@ -1,8 +1,8 @@
 import React from "react"
-import styles from "./UserItem.module.scss"
+import styles from "./DialogItem.module.scss"
 import noUser from "../../../assets/img/no-user.jpg"
 
-const UserItem = ({ name, img }) => {
+const DialogItem = ({ name, img }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.wrapperItem}>
@@ -15,4 +15,4 @@ const UserItem = ({ name, img }) => {
   )
 }
 
-export default UserItem
+export default DialogItem

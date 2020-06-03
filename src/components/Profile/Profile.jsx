@@ -1,12 +1,12 @@
 import React from "react"
 import MyPosts from "./MyPosts/MyPosts"
+import ProfileInfo from "./ProfileInfo/ProfileInfo"
 
-const Profile = () => {
+const Profile = ({ profilePage }) => {
   return (
     <>
-      <div>top img</div>
-      <div>ava + descr</div>
-      <MyPosts />
+      <ProfileInfo />
+      <MyPosts posts={profilePage.posts} />
     </>
   )
 }

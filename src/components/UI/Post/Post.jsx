@@ -1,13 +1,19 @@
 import React from "react"
-import styles from "./Post.module.scss"
+import s from "./Post.module.scss"
+import noUser from "../../../assets/img/no-user.jpg"
 
-const Post = ({ children }) => {
+const Post = ({ children, likes, image = noUser }) => {
   return (
-    <div className={styles.post}>
-      <div className={styles.image}>
-        <img src="" alt="" />
+    <div>
+      <div className={s.post}>
+        <div className={s.image}>
+          <img src={image} alt="" />
+        </div>
+        <div className={s.text}>{children}</div>
       </div>
-      <div className={styles.text}>{children}</div>
+      <div className={s.likesWrapper}>
+        <div>likes: {likes}</div>
+      </div>
     </div>
   )
 }

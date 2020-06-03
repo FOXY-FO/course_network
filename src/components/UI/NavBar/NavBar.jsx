@@ -1,23 +1,38 @@
 import React from "react"
 import { NavLink } from "react-router-dom"
 
-import routes from "../../../routes"
-import styles from "./NavBar.module.scss"
+import s from "./NavBar.module.scss"
 
 const NavBar = () => {
   return (
-    <aside className={styles.navBar}>
+    <aside className={s.navBar}>
       <nav>
         <ul>
-          {routes.map(({ id, route, name }) => {
-            return (
-              <li key={id} className={styles.item}>
-                <NavLink to={route} activeClassName={styles.active}>
-                  {name}
-                </NavLink>
-              </li>
-            )
-          })}
+          <li className={s.item}>
+            <NavLink to="/profile" activeClassName={s.active}>
+              Profile
+            </NavLink>
+          </li>
+          <li className={s.item}>
+            <NavLink to="/dialogs" activeClassName={s.active}>
+              Dialogs
+            </NavLink>
+          </li>
+          <li className={s.item}>
+            <NavLink to="/news" activeClassName={s.active}>
+              News
+            </NavLink>
+          </li>
+          <li className={s.item}>
+            <NavLink to="/music" activeClassName={s.active}>
+              Music
+            </NavLink>
+          </li>
+          <li className={s.item}>
+            <NavLink to="/settings" activeClassName={s.active}>
+              Settings
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </aside>
