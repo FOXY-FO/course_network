@@ -2,7 +2,7 @@ import React from "react"
 import s from "./Post.module.scss"
 import noUser from "../../../assets/img/no-user.jpg"
 
-const Post = ({ children, likes, image = noUser }) => {
+const Post = ({ children, likesCount, image = noUser }) => {
   return (
     <div>
       <div className={s.post}>
@@ -12,7 +12,7 @@ const Post = ({ children, likes, image = noUser }) => {
         <div className={s.text}>{children}</div>
       </div>
       <div className={s.likesWrapper}>
-        <div>likes: {likes}</div>
+        <div>likes: {likesCount}</div>
       </div>
     </div>
   )
