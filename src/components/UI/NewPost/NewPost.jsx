@@ -1,12 +1,13 @@
 import React from "react"
+import {addPostActionCreator, changeNewPostTextActionCreator} from '../../../redux/state'
 
 const NewPost = ({ newPostText, dispatch }) => {
     let handleChange = text => {
-        dispatch({type: 'CHANGE-NEW-POST-TEXT', text})
+        dispatch(changeNewPostTextActionCreator(text))
     }
 
     let handleClick = postContent => {
-        dispatch({type: 'ADD-POST', postContent})
+        dispatch(addPostActionCreator(postContent))
     }
 
   return (

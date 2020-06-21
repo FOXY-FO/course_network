@@ -1,3 +1,6 @@
+let CHANGE_NEW_POST_TEXT = 'CHANGE-NEW-POST-TEXT';
+let ADD_POST = 'ADD-POST';
+
 let store = {
   _state: {
     profilePage: {
@@ -74,5 +77,8 @@ let store = {
     }
   }
 }
+
+export let changeNewPostTextActionCreator = text => ({type: CHANGE_NEW_POST_TEXT, text})
+export let addPostActionCreator = postContent => ({type: ADD_POST, postContent})
 
 export default store
