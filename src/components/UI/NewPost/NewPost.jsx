@@ -1,18 +1,22 @@
 import React from "react"
 
-const NewPost = ({ addPost, newPostText, changeNewPostText }) => {
+const NewPost = ({ newPostText, dispatch }) => {
+    let handleChange = text => {
+        dispatch({type: 'CHANGE-NEW-POST-TEXT', text})
+    }
+
+    let handleClick = postContent => {
+        dispatch({type: 'ADD-POST', postContent})
+    }
+
   return (
     <div>
       <textarea
         value={newPostText}
-        onChange={(e) => {
-          changeNewPostText(e.target.value)
-        }}
+        onChange={(e) => handleChange(e.target.value)}
       />
       <button
-        onClick={() => {
-          addPost(newPostText)
-        }}
+        onClick={() => handleClick(newPostText)}
       >
         Add post
       </button>

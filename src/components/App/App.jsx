@@ -11,7 +11,7 @@ import News from "../News/News"
 import Music from "../Music/Music"
 import Settings from "../Settings/Settings"
 
-const App = ({ state, addPost, changeNewPostText }) => {
+const App = ({ state, dispatch }) => {
   return (
     <Router>
       <div className="app-wrapper">
@@ -26,8 +26,7 @@ const App = ({ state, addPost, changeNewPostText }) => {
               render={() => (
                 <Profile
                   profilePage={state.profilePage}
-                  addPost={addPost}
-                  changeNewPostText={changeNewPostText}
+                  dispatch={dispatch}
                 />
               )}
             />

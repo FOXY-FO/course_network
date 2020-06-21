@@ -2,13 +2,12 @@ import React from "react"
 import Post from "../../UI/Post/Post"
 import NewPost from "../../UI/NewPost/NewPost"
 
-const MyPosts = ({ newPostText, posts, addPost, changeNewPostText }) => {
+const MyPosts = ({ newPostText, posts, dispatch }) => {
   return (
     <div>
       <NewPost
         newPostText={newPostText}
-        addPost={addPost}
-        changeNewPostText={changeNewPostText}
+        dispatch={dispatch}
       />
       <div>
         {posts.map(({ id, text, likesCount }) => (

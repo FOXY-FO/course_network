@@ -47,29 +47,31 @@ let store = {
       ],
     },
   },
+  _callSubscriber() {
+    console.log("state was changed")
+  },
 
   getState() {
     return this._state
   },
-  _callSubscriber() {
-    console.log("state was changed")
-  },
-  addPost(postContent) {
-    const newPost = {
-      id: this._state.profilePage.posts[this._state.profilePage.posts.length - 1].id + 1,
-      text: postContent,
-      likesCount: 0,
-    }
-    this._state.profilePage.posts.push(newPost)
-    this._state.profilePage.newPostText = ""
-    this._callSubscriber(this._state)
-  },
-  changeNewPostText(text) {
-    this._state.profilePage.newPostText = text
-    this._callSubscriber(this._state)
-  },
   subscribe(observer) {
     this._callSubscriber = observer
+  },
+
+  dispatch(action) {
+    if (action.type === 'ADD-POST') {
+      const newPost = {
+        id: this._state.profilePage.posts[this._state.profilePage.posts.length - 1].id + 1,
+        text: action.postContent,
+        likesCount: 0,
+      }
+      this._state.profilePage.posts.push(newPost)
+      this._state.profilePage.newPostText = ""
+      this._callSubscriber(this._state)
+    } else if (action.type === 'CHANGE-NEW-POST-TEXT') {
+      this._state.profilePage.newPostText = action.text
+      this._callSubscriber(this._state)
+    }
   }
 }
 
