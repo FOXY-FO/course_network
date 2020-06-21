@@ -33,7 +33,7 @@ const App = ({ state, dispatch }) => {
             <Route
               exact
               path="/dialogs"
-              render={() => <Dialogs dialogsPage={state.dialogsPage} />}
+              render={() => <Dialogs dialogsPage={state.dialogsPage} dispatch={dispatch} />}
             />
             <Route exact path="/news" component={News} />
             <Route exact path="/music" component={Music} />
