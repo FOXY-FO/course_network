@@ -52,9 +52,7 @@ let store = {
             newMessageText: '',
         },
     },
-    _callSubscriber() {
-        console.log("state was changed")
-    },
+    _callSubscriber() {},
 
     getState() {
         return this._state

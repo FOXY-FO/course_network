@@ -1,4 +1,6 @@
-let sidebarReducer = (state, action) => {
+let initialState = {}
+
+let sidebarReducer = (state = initialState, action) => {
     switch (action.type) {
         default:
             return state

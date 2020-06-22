@@ -1,7 +1,23 @@
 let CHANGE_NEW_POST_TEXT = 'CHANGE_NEW_POST_TEXT'
 let ADD_POST = 'ADD_POST'
 
-let profileReducer = (state, action) => {
+let initialState = {
+    newPostText: "",
+    posts: [
+        {
+            id: 1,
+            text: "Hey, what's up?!",
+            likesCount: 13,
+        },
+        {
+            id: 2,
+            text: "What up!",
+            likesCount: 1323,
+        },
+    ],
+}
+
+let profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_POST:
             if (state.newPostText === '') return state
