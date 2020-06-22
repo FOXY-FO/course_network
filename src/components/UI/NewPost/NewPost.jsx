@@ -1,5 +1,5 @@
 import React from "react"
-import {addPostActionCreator, changeNewPostTextActionCreator} from '../../../redux/state'
+import {addPostActionCreator, changeNewPostTextActionCreator} from "../../../redux/profile-reducer";
 
 const NewPost = ({ newPostText, dispatch }) => {
     let handleChange = text => {

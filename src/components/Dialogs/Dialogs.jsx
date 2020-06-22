@@ -1,9 +1,9 @@
 import React from "react"
-import {updateNewMessageTextCreator, addMessageCreator} from '../../redux/state'
 
 import styles from "./Dialogs.module.scss"
 import UserItem from "./DialogItem/DialogItem"
 import Message from "./Message/Message"
+import {addMessageCreator, updateNewMessageTextCreator} from "../../redux/dialogs-reducer";
 
 const Dialogs = ({dialogsPage, dispatch}) => {
     let handleChange = text => {
