@@ -7,7 +7,9 @@ const NewPost = ({newPostText, updateNewPostText, addPost}) => {
 
     return (
         <div>
-            <textarea value={newPostText} onChange={(e) => handleChange(e.target.value)} />
+            <textarea
+                value={newPostText}
+                onChange={(e) => handleChange(e.target.value)}/>
             <button onClick={addPost}>Add post</button>
         </div>
     )

@@ -1,5 +1,5 @@
 import React from "react"
-import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
+import {Route, Switch} from "react-router-dom"
 
 import "./App.scss"
 
@@ -11,34 +11,28 @@ import Music from "../Music/Music"
 import Settings from "../Settings/Settings"
 import DialogsContainer from "../Dialogs/DialogsContainer";
 
-const App = ({store, dispatch}) => {
+const App = ({state, dispatch}) => {
     return (
-        <Router>
-            <div className="app-wrapper">
-                <Header/>
-                <NavBar/>
+        <div className="app-wrapper">
+            <Header/>
+            <NavBar/>
 
-                <main className="main">
-                    <Switch>
-                        <Route exact path="/profile"
-                            render={() => (
-                                <Profile
-                                    store={store}
-                                    profilePage={store.getState().profilePage}
-                                    dispatch={dispatch}
-                                />
-                            )}
-                        />
-                        <Route exact path="/dialogs"
-                            render={() => <DialogsContainer dialogsPage={store.getState().dialogsPage} dispatch={dispatch}/>}
-                        />
-                        <Route exact path="/news" component={News}/>
-                        <Route exact path="/music" component={Music}/>
-                        <Route exact path="/settings" component={Settings}/>
-                    </Switch>
-                </main>
-            </div>
-        </Router>
+            <main className="main">
+                <Switch>
+                    <Route exact path="/profile"
+                           render={() => (
+                               <Profile profilePage={state.profilePage} />
+                           )}
+                    />
+                    <Route exact path="/dialogs"
+                           render={() => <DialogsContainer />}
+                    />
+                    <Route exact path="/news" component={News}/>
+                    <Route exact path="/music" component={Music}/>
+                    <Route exact path="/settings" component={Settings}/>
+                </Switch>
+            </main>
+        </div>
     )
 }
 
