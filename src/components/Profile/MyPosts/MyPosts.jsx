@@ -1,23 +1,20 @@
 import React from "react"
 import Post from "../../UI/Post/Post"
-import NewPost from "../../UI/NewPost/NewPost"
+import NewPostContainer from "../../UI/NewPost/NewPostContainer";
 
-const MyPosts = ({ newPostText, posts, dispatch }) => {
-  return (
-    <div>
-      <NewPost
-        newPostText={newPostText}
-        dispatch={dispatch}
-      />
-      <div>
-        {posts.map(({ id, text, likesCount }) => (
-          <Post key={id} likesCount={likesCount}>
-            {text}
-          </Post>
-        ))}
-      </div>
-    </div>
-  )
+const MyPosts = ({newPostText, posts, store, dispatch}) => {
+    return (
+        <div>
+            <NewPostContainer store={store} />
+            <div>
+                {posts.map(({id, text, likesCount}) => (
+                    <Post key={id} likesCount={likesCount}>
+                        {text}
+                    </Post>
+                ))}
+            </div>
+        </div>
+    )
 }
 
 export default MyPosts

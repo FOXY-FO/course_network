@@ -3,15 +3,10 @@ import React from "react"
 import styles from "./Dialogs.module.scss"
 import UserItem from "./DialogItem/DialogItem"
 import Message from "./Message/Message"
-import {addMessageCreator, updateNewMessageTextCreator} from "../../redux/dialogs-reducer";
 
-const Dialogs = ({dialogsPage, dispatch}) => {
+const Dialogs = ({dialogsPage, updateMessageText, addMessage}) => {
     let handleChange = text => {
-        dispatch(updateNewMessageTextCreator(text))
-    }
-
-    let handleClick = () => {
-        dispatch(addMessageCreator())
+        updateMessageText(text)
     }
 
     return (
@@ -27,8 +22,9 @@ const Dialogs = ({dialogsPage, dispatch}) => {
                         <Message key={id}>{text}</Message>
                     ))}
                 </div>
-                <textarea value={dialogsPage.newMessageText} onChange={e => handleChange(e.target.value)} />
-                <button onClick={handleClick}>Add</button>
+                <textarea value={dialogsPage.newMessageText}
+                          onChange={e => handleChange(e.target.value)} />
+                <button onClick={addMessage}>Add</button>
             </div>
         </div>
     )

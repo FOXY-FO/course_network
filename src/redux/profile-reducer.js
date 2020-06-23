@@ -24,7 +24,7 @@ let profileReducer = (state = initialState, action) => {
 
             let newPost = {
                 id: state.posts[state.posts.length - 1].id + 1,
-                text: action.postContent,
+                text: state.newPostText,
                 likesCount: 0,
             }
             state.posts.push(newPost)
@@ -39,6 +39,6 @@ let profileReducer = (state = initialState, action) => {
 }
 
 export let changeNewPostTextActionCreator = text => ({type: CHANGE_NEW_POST_TEXT, text})
-export let addPostActionCreator = postContent => ({type: ADD_POST, postContent})
+export let addPostActionCreator = () => ({type: ADD_POST})
 
 export default profileReducer

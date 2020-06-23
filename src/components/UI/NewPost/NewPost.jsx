@@ -1,28 +1,16 @@
 import React from "react"
-import {addPostActionCreator, changeNewPostTextActionCreator} from "../../../redux/profile-reducer";
 
-const NewPost = ({ newPostText, dispatch }) => {
-    let handleChange = text => {
-        dispatch(changeNewPostTextActionCreator(text))
+const NewPost = ({newPostText, updateNewPostText, addPost}) => {
+    let handleChange = value => {
+        updateNewPostText(value)
     }
 
-    let handleClick = postContent => {
-        dispatch(addPostActionCreator(postContent))
-    }
-
-  return (
-    <div>
-      <textarea
-        value={newPostText}
-        onChange={(e) => handleChange(e.target.value)}
-      />
-      <button
-        onClick={() => handleClick(newPostText)}
-      >
-        Add post
-      </button>
-    </div>
-  )
+    return (
+        <div>
+            <textarea value={newPostText} onChange={(e) => handleChange(e.target.value)} />
+            <button onClick={addPost}>Add post</button>
+        </div>
+    )
 }
 
 export default NewPost
