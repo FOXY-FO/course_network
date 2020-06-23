@@ -11,7 +11,7 @@ import Music from "../Music/Music"
 import Settings from "../Settings/Settings"
 import DialogsContainer from "../Dialogs/DialogsContainer";
 
-const App = ({state, dispatch}) => {
+const App = () => {
     return (
         <div className="app-wrapper">
             <Header/>
@@ -20,9 +20,7 @@ const App = ({state, dispatch}) => {
             <main className="main">
                 <Switch>
                     <Route exact path="/profile"
-                           render={() => (
-                               <Profile profilePage={state.profilePage} />
-                           )}
+                           render={() => <Profile />}
                     />
                     <Route exact path="/dialogs"
                            render={() => <DialogsContainer />}
