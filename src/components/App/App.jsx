@@ -10,6 +10,7 @@ import News from "../News/News"
 import Music from "../Music/Music"
 import Settings from "../Settings/Settings"
 import DialogsContainer from "../Dialogs/DialogsContainer";
+import UsersContainer from "../Users/UsersContainer";
 
 const App = () => {
     return (
@@ -19,15 +20,12 @@ const App = () => {
 
             <main className="main">
                 <Switch>
-                    <Route exact path="/profile"
-                           render={() => <Profile />}
-                    />
-                    <Route exact path="/dialogs"
-                           render={() => <DialogsContainer />}
-                    />
+                    <Route exact path="/profile" component={Profile}/>
+                    <Route exact path="/dialogs" component={DialogsContainer}/>
                     <Route exact path="/news" component={News}/>
                     <Route exact path="/music" component={Music}/>
                     <Route exact path="/settings" component={Settings}/>
+                    <Route exact path="/users" component={UsersContainer} />
                 </Switch>
             </main>
         </div>
