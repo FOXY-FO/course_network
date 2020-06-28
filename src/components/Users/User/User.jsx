@@ -1,4 +1,5 @@
 import React from 'react'
+import s from './User.module.scss'
 import noImage from "../../../assets/img/no-user.jpg";
 
 class User extends React.Component {
@@ -6,7 +7,7 @@ class User extends React.Component {
         return (
             <div>
                 <div>
-                    <div>
+                    <div className={s.image}>
                         <img src={this.props.photos.small ? this.props.photos.small : noImage} alt=""/>
                     </div>
                     {this.props.followed ?
