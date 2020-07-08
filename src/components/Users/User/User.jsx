@@ -1,28 +1,37 @@
-import React from 'react'
-import s from './User.module.scss'
-import noImage from "../../../assets/img/no-user.jpg";
+import React from "react"
+import { Link } from "react-router-dom"
+import s from "./User.module.scss"
+import noImage from "../../../assets/img/no-user.jpg"
 
-class User extends React.Component {
-    render() {
-        return (
-            <div>
-                <div>
-                    <div className={s.image}>
-                        <img src={this.props.photos.small ? this.props.photos.small : noImage} alt=""/>
-                    </div>
-                    {this.props.followed ?
-                        <button onClick={() => this.props.unfollow(this.props.id)}>unfollow</button> :
-                        <button onClick={() => this.props.follow(this.props.id)}>follow</button>
-                    }
-                </div>
-                <div>
-                    <div>name: {this.props.name}</div>
-                    <div>status: {this.props.status}</div>
-                    <div>likes: {this.props.likesCount}</div>
-                </div>
-            </div>
-        )
-    }
+let User = ({
+  id,
+  photos,
+  follow,
+  followed,
+  unfollow,
+  name,
+  status,
+  likesCount,
+}) => {
+  return (
+    <div>
+      <div>
+        <Link to={`/profile/${id}`} className={s.image}>
+          <img src={photos.small ? photos.small : noImage} alt="" />
+        </Link>
+        {followed ? (
+          <button onClick={() => unfollow(id)}>unfollow</button>
+        ) : (
+          <button onClick={() => follow(id)}>follow</button>
+        )}
+      </div>
+      <div>
+        <div>name: {name}</div>
+        <div>status: {status}</div>
+        <div>likes: {likesCount}</div>
+      </div>
+    </div>
+  )
 }
 
 export default User
