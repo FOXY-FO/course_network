@@ -19,8 +19,6 @@ let initialState = {
   profile: null,
 }
 
-window.profile = initialState.profile
-
 let profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST:
