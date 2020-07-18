@@ -3,7 +3,6 @@ import { Route, Switch } from "react-router-dom"
 
 import "./App.scss"
 
-import Header from "../UI/Header/Header"
 import NavBar from "../UI/NavBar/NavBar"
 import News from "../News/News"
 import Music from "../Music/Music"
@@ -11,15 +10,18 @@ import Settings from "../Settings/Settings"
 import DialogsContainer from "../Dialogs/DialogsContainer"
 import UsersContainer from "../Users/UsersContainer"
 import ProfileContainer from "../Profile/ProfileContainer"
+import HeaderContainer from "../UI/Header/HeaderContainer"
+import Login from "../Login/Login"
 
 const App = () => {
   return (
     <div className="app-wrapper">
-      <Header />
+      <HeaderContainer />
       <NavBar />
 
       <main className="main">
         <Switch>
+          <Route exact path="/login" component={Login} />
           <Route path="/profile/:userId?" component={ProfileContainer} />
           <Route exact path="/dialogs" component={DialogsContainer} />
           <Route exact path="/news" component={News} />
