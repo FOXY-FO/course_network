@@ -12,6 +12,7 @@ let User = ({
   name,
   status,
   likesCount,
+  followingInProgress,
 }) => {
   return (
     <div>
@@ -20,9 +21,19 @@ let User = ({
           <img src={photos.small ? photos.small : noImage} alt="" />
         </Link>
         {followed ? (
-          <button onClick={() => unfollow(id)}>unfollow</button>
+          <button
+            onClick={() => unfollow(id)}
+            disabled={followingInProgress.find((userId) => userId === id)}
+          >
+            unfollow
+          </button>
         ) : (
-          <button onClick={() => follow(id)}>follow</button>
+          <button
+            onClick={() => follow(id)}
+            disabled={followingInProgress.find((userId) => userId === id)}
+          >
+            follow
+          </button>
         )}
       </div>
       <div>

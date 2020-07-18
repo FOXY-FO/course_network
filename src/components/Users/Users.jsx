@@ -4,10 +4,17 @@ import cs from "classnames"
 import UsersContainer from "./User/UserContainer"
 
 let Users = ({
-  usersPage: { users, totalUsersCount, pageSize, currentPage },
+  usersPage: {
+    users,
+    totalUsersCount,
+    pageSize,
+    currentPage,
+    followingInProgress,
+  },
   follow,
   unfollow,
   onPageChange,
+  toggleFollowingInProgress,
 }) => {
   // Pagination
   let pagesCount = Math.ceil(totalUsersCount / pageSize)
@@ -33,7 +40,14 @@ let Users = ({
         </div>
       )}
       {users.map((u) => (
-        <UsersContainer key={u.id} follow={follow} unfollow={unfollow} {...u} />
+        <UsersContainer
+          key={u.id}
+          follow={follow}
+          unfollow={unfollow}
+          followingInProgress={followingInProgress}
+          toggleFollowingInProgress={toggleFollowingInProgress}
+          {...u}
+        />
       ))}
     </>
   )
