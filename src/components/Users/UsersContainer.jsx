@@ -31,7 +31,10 @@ class UsersAPIComponent extends React.Component {
     this.props.toggleFetching(true)
     axios
       .get(
-        `https://social-network.samuraijs.com/api/1.0/users?count=${this.props.usersPage.pageSize}&page=${page}`
+        `https://social-network.samuraijs.com/api/1.0/users?count=${this.props.usersPage.pageSize}&page=${page}`,
+        {
+          withCredentials: true,
+        }
       )
       .then((res) => {
         this.props.setUsers(res.data.items)
