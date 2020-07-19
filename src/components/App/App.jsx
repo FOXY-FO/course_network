@@ -12,6 +12,9 @@ import UsersContainer from "../Users/UsersContainer"
 import ProfileContainer from "../Profile/ProfileContainer"
 import HeaderContainer from "../UI/Header/HeaderContainer"
 import Login from "../Login/Login"
+import SettingsContainer from "../Settings/SettingsContainer"
+import MusicContainer from "../Music/MusicContainer"
+import NewsContainer from "../News/NewsContainer"
 
 const App = () => {
   return (
@@ -24,9 +27,9 @@ const App = () => {
           <Route exact path="/login" component={Login} />
           <Route path="/profile/:userId?" component={ProfileContainer} />
           <Route exact path="/dialogs" component={DialogsContainer} />
-          <Route exact path="/news" component={News} />
-          <Route exact path="/music" component={Music} />
-          <Route exact path="/settings" component={Settings} />
+          <Route exact path="/news" component={NewsContainer} />
+          <Route exact path="/music" component={MusicContainer} />
+          <Route exact path="/settings" component={SettingsContainer} />
           <Route exact path="/users" component={UsersContainer} />
         </Switch>
       </main>

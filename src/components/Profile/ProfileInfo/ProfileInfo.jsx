@@ -1,5 +1,6 @@
 import React from "react"
 import s from "./ProfileInfo.module.scss"
+import noImage from "../../../assets/img/no-user.jpg"
 import Preloader from "../../UI/Preloader/Preloader"
 
 const ProfileInfo = ({ profile }) => {
@@ -10,7 +11,7 @@ const ProfileInfo = ({ profile }) => {
   return (
     <div>
       <div className={s.img}>
-        <img src={photos.large} alt="" />
+        <img src={photos.large ? photos.large : noImage} alt="" />
       </div>
       <div className={s.info}>
         <div>name: {fullName}</div>
