@@ -1,3 +1,5 @@
+import api from "../api/api"
+
 let CHANGE_NEW_POST_TEXT = "CHANGE_NEW_POST_TEXT"
 let ADD_POST = "ADD_POST"
 let SET_USER = "SET_USER"
@@ -56,5 +58,11 @@ export let changeNewPostTextActionCreator = (text) => ({
 })
 export let addPostActionCreator = () => ({ type: ADD_POST })
 export let setProfile = (profile) => ({ type: SET_USER, profile })
+
+export let getProfileThunk = (userId, currentUserId) => (dispatch) => {
+  api.profile.getProfile(userId ? userId : currentUserId).then((res) => {
+    dispatch(setProfile(res))
+  })
+}
 
 export default profileReducer

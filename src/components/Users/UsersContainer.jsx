@@ -15,40 +15,32 @@ import Preloader from "../UI/Preloader/Preloader"
 
 class UsersAPIComponent extends React.Component {
   componentDidMount() {
-    this.props.getUsers(
-      this.props.usersPage.currentPage,
-      this.props.usersPage.pageSize
-    )
+    let {
+      getUsers,
+      usersPage: { currentPage, pageSize },
+    } = this.props
 
-    // this.props.toggleFetching(true)
-
-    // api.users
-    //   .getUsers(this.props.usersPage.currentPage, this.props.usersPage.pageSize)
-    //   .then((response) => {
-    //     this.props.setUsers(response.items)
-    //     this.props.setTotalUsersCount(response.totalCount)
-    //     this.props.setCurrentPage(this.props.usersPage.currentPage)
-    //     this.props.toggleFetching(false)
-    //   })
+    getUsers(currentPage, pageSize)
   }
 
   onPageChange = (page) => {
-    this.props.getUsers(page, this.props.usersPage.pageSize)
+    let {
+      getUsers,
+      usersPage: { pageSize },
+    } = this.props
 
-    // this.props.toggleFetching(true)
-
-    // api.users.getUsers(page, this.props.usersPage.pageSize).then((res) => {
-    //   this.props.setUsers(res.items)
-    //   this.props.setTotalUsersCount(res.totalCount)
-    //   this.props.setCurrentPage(page)
-    //   this.props.toggleFetching(false)
-    // })
+    getUsers(page, pageSize)
   }
 
   render() {
-    let { usersPage, follow, unfollow, toggleFollowingInProgress } = this.props
+    let {
+      usersPage: { isFetching, ...usersPage },
+      follow,
+      unfollow,
+      toggleFollowingInProgress,
+    } = this.props
 
-    if (usersPage.isFetching) {
+    if (isFetching) {
       return <Preloader />
     }
 
