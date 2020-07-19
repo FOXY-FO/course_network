@@ -10,7 +10,7 @@ let instance = axios.create({
 
 export default {
   users: {
-    getUsers(pageSize = 10, currentPage = 1) {
+    getUsers(currentPage = 1, pageSize = 10) {
       return instance
         .get(`/users?page=${currentPage}&count=${pageSize}`)
         .then((res) => res.data)

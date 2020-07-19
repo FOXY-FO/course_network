@@ -1,3 +1,5 @@
+import api from "../api/api"
+
 let FOLLOW = "FOLLOW"
 let UNFOLLOW = "UNFOLLOW"
 let SET_USERS = "SET_USERS"
@@ -89,5 +91,16 @@ export let toggleFollowingInProgress = (userId) => ({
   type: TOGGLE_FOLLOWING_IN_PROGRESS,
   userId,
 })
+
+export let getUsersThunkCreator = (currentPage, pageSize) => (dispatch) => {
+  dispatch(toggleFetching(true))
+
+  api.users.getUsers(currentPage, pageSize).then((response) => {
+    dispatch(setUsers(response.items))
+    dispatch(setTotalUsersCount(response.totalCount))
+    dispatch(setCurrentPage(currentPage))
+    dispatch(toggleFetching(false))
+  })
+}
 
 export default usersReducer
