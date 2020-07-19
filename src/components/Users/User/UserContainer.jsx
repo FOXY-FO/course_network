@@ -1,26 +1,18 @@
 import React from "react"
-import api from "../../../api/api"
+import { connect } from "react-redux"
+import {
+  followUserThunkCreator,
+  unfollowUserThunkCreator,
+} from "../../../redux/users-reducer"
 import User from "./User"
 
 class UserContainer extends React.Component {
   follow = (userId) => {
-    this.props.toggleFollowingInProgress(userId)
-    api.follow.follow(userId).then((res) => {
-      if (res.resultCode === 0) {
-        this.props.follow(userId)
-      }
-      this.props.toggleFollowingInProgress(userId)
-    })
+    this.props.followUser(userId)
   }
 
   unfollow = (userId) => {
-    this.props.toggleFollowingInProgress(userId)
-    api.follow.unfollow(userId).then((res) => {
-      if (res.resultCode === 0) {
-        this.props.unfollow(userId)
-      }
-      this.props.toggleFollowingInProgress(userId)
-    })
+    this.props.unfollowUser(userId)
   }
 
   render() {
@@ -30,4 +22,7 @@ class UserContainer extends React.Component {
   }
 }
 
-export default UserContainer
+export default connect(null, {
+  followUser: followUserThunkCreator,
+  unfollowUser: unfollowUserThunkCreator,
+})(UserContainer)

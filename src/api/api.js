@@ -15,6 +15,13 @@ export default {
         .get(`/users?page=${currentPage}&count=${pageSize}`)
         .then((res) => res.data)
     },
+    follow(userId) {
+      return instance.post(`/follow/${userId}`).then((res) => res.data)
+    },
+
+    unfollow(userId) {
+      return instance.delete(`/follow/${userId}`).then((res) => res.data)
+    },
   },
 
   profile: {
@@ -26,16 +33,6 @@ export default {
   auth: {
     getCurrentUserProfile() {
       return instance.get(`/auth/me`).then((res) => res.data)
-    },
-  },
-
-  follow: {
-    follow(userId) {
-      return instance.post(`/follow/${userId}`).then((res) => res.data)
-    },
-
-    unfollow(userId) {
-      return instance.delete(`/follow/${userId}`).then((res) => res.data)
     },
   },
 }

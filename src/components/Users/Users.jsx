@@ -11,10 +11,7 @@ let Users = ({
     currentPage,
     followingInProgress,
   },
-  follow,
-  unfollow,
   onPageChange,
-  toggleFollowingInProgress,
 }) => {
   // Pagination
   let pagesCount = Math.ceil(totalUsersCount / pageSize)
@@ -42,10 +39,7 @@ let Users = ({
       {users.map((u) => (
         <UsersContainer
           key={u.id}
-          follow={follow}
-          unfollow={unfollow}
           followingInProgress={followingInProgress}
-          toggleFollowingInProgress={toggleFollowingInProgress}
           {...u}
         />
       ))}

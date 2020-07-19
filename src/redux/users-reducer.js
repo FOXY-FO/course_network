@@ -64,10 +64,10 @@ let usersReducer = (state = initialState, action) => {
     case TOGGLE_FOLLOWING_IN_PROGRESS:
       return {
         ...state,
-        followingInProgress: state.followingInProgress.find(
+        followingInProgress: state.followingInProgress.some(
           (id) => id === action.userId
         )
-          ? state.followingInProgress.filter((id) => id === action.userId)
+          ? state.followingInProgress.filter((id) => id !== action.userId)
           : [...state.followingInProgress, action.userId],
       }
     default:
@@ -75,8 +75,8 @@ let usersReducer = (state = initialState, action) => {
   }
 }
 
-export let follow = (userId) => ({ type: FOLLOW, userId })
-export let unfollow = (userId) => ({ type: UNFOLLOW, userId })
+export let followSuccess = (userId) => ({ type: FOLLOW, userId })
+export let unfollowSuccess = (userId) => ({ type: UNFOLLOW, userId })
 export let setUsers = (users) => ({ type: SET_USERS, users })
 export let setTotalUsersCount = (value) => ({
   type: SET_TOTAL_USERS_COUNT,
@@ -100,6 +100,24 @@ export let getUsersThunkCreator = (currentPage, pageSize) => (dispatch) => {
     dispatch(setTotalUsersCount(response.totalCount))
     dispatch(setCurrentPage(currentPage))
     dispatch(toggleFetching(false))
+  })
+}
+export let followUserThunkCreator = (userId) => (dispatch) => {
+  dispatch(toggleFollowingInProgress(userId))
+  api.users.follow(userId).then((res) => {
+    if (res.resultCode === 0) {
+      dispatch(followSuccess(userId))
+    }
+    dispatch(toggleFollowingInProgress(userId))
+  })
+}
+export let unfollowUserThunkCreator = (userId) => (dispatch) => {
+  dispatch(toggleFollowingInProgress(userId))
+  api.users.unfollow(userId).then((res) => {
+    if (res.resultCode === 0) {
+      dispatch(unfollowSuccess(userId))
+    }
+    dispatch(toggleFollowingInProgress(userId))
   })
 }
 
