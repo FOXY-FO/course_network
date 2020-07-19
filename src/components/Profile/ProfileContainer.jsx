@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom"
 import { getProfileThunk } from "../../redux/profile-reducer"
 import Profile from "./Profile"
 import withAuthRedirect from "../../hoc/withAuthRedirect"
+import { compose } from "redux"
 
 let ProfileContainer = ({
   getProfile,
@@ -23,6 +24,8 @@ let mapStateToProps = (state) => ({
   currentUserId: state.auth.userId,
 })
 
-export default connect(mapStateToProps, {
-  getProfile: getProfileThunk,
-})(withRouter(withAuthRedirect(ProfileContainer)))
+export default compose(
+  connect(mapStateToProps, { getProfile: getProfileThunk }),
+  withRouter,
+  withAuthRedirect
+)(ProfileContainer)
