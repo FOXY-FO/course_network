@@ -3,6 +3,7 @@ import api from "../api/api"
 let CHANGE_NEW_POST_TEXT = "CHANGE_NEW_POST_TEXT"
 let ADD_POST = "ADD_POST"
 let SET_USER = "SET_USER"
+let SET_STATUS = "SET_STATUS"
 
 let initialState = {
   newPostText: "",
@@ -19,6 +20,7 @@ let initialState = {
     },
   ],
   profile: null,
+  status: "",
 }
 
 let profileReducer = (state = initialState, action) => {
@@ -47,6 +49,11 @@ let profileReducer = (state = initialState, action) => {
         ...state,
         profile: action.profile,
       }
+    case SET_STATUS:
+      return {
+        ...state,
+        status: action.status,
+      }
     default:
       return state
   }
@@ -58,10 +65,23 @@ export let changeNewPostTextActionCreator = (text) => ({
 })
 export let addPostActionCreator = () => ({ type: ADD_POST })
 export let setProfile = (profile) => ({ type: SET_USER, profile })
+export let setStatus = (status) => ({ type: SET_STATUS, status })
 
 export let getProfileThunk = (userId, currentUserId) => (dispatch) => {
   api.profile.getProfile(userId ? userId : currentUserId).then((res) => {
     dispatch(setProfile(res))
+  })
+}
+export let getUserStatus = (userId) => (dispatch) => {
+  api.profile.getUserStatus(userId).then((status) => {
+    dispatch(setStatus(status))
+  })
+}
+export let updateUserStatus = (status) => (dispatch) => {
+  api.profile.updateUserStatus(status).then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(setStatus(status))
+    }
   })
 }
 
