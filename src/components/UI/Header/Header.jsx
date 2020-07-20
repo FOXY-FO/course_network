@@ -2,7 +2,7 @@ import React from "react"
 import styles from "./Header.module.scss"
 import { Link } from "react-router-dom"
 
-const Header = ({ login, isAuth }) => {
+let Header = ({ login, isAuth, logout }) => {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -12,7 +12,14 @@ const Header = ({ login, isAuth }) => {
         />
       </div>
       <div className={styles.auth}>
-        {isAuth ? login : <Link to="/login">Login</Link>}
+        {isAuth && (
+          <>
+            <div>{login}</div>
+            <button onClick={logout}>Log Out</button>
+          </>
+        )}
+
+        {!isAuth && <Link to="/login">Login</Link>}
       </div>
     </header>
   )

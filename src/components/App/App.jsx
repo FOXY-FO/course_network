@@ -8,10 +8,10 @@ import DialogsContainer from "../Dialogs/DialogsContainer"
 import UsersContainer from "../Users/UsersContainer"
 import ProfileContainer from "../Profile/ProfileContainer"
 import HeaderContainer from "../UI/Header/HeaderContainer"
-import Login from "../Login/Login"
 import SettingsContainer from "../Settings/SettingsContainer"
 import MusicContainer from "../Music/MusicContainer"
 import NewsContainer from "../News/NewsContainer"
+import LoginContainer from "../Login/LoginContainer"
 
 const App = () => {
   return (
@@ -21,7 +21,7 @@ const App = () => {
 
       <main className="main">
         <Switch>
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/login" component={LoginContainer} />
           <Route path="/profile/:userId?" component={ProfileContainer} />
           <Route exact path="/dialogs" component={DialogsContainer} />
           <Route exact path="/news" component={NewsContainer} />
