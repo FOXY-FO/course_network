@@ -1,4 +1,5 @@
 import React from "react"
+import s from "./ProfileStatus.module.scss"
 
 class ProfileStatus extends React.Component {
   state = {
@@ -6,16 +7,11 @@ class ProfileStatus extends React.Component {
     status: this.props.status,
   }
 
-  componentDidMount() {
-    this.props.getUserStatus(2)
-  }
-
   activateEditMode = () => {
     this.setState({
       editMode: true,
     })
   }
-
   deactivateEditMode = () => {
     this.setState({
       editMode: false,
@@ -23,11 +19,25 @@ class ProfileStatus extends React.Component {
 
     this.props.updateUserStatus(this.state.status)
   }
-
   onStatusChange = (status) => {
     this.setState({
       status,
     })
+  }
+
+  componentDidMount() {
+    this.props.getUserStatus(this.props.currentUserId)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.currentUserId !== this.props.currentUserId) {
+      this.props.getUserStatus(this.props.currentUserId)
+    }
+    if (prevProps.status !== this.props.status) {
+      this.setState({
+        status: this.props.status,
+      })
+    }
   }
 
   render() {
@@ -35,7 +45,9 @@ class ProfileStatus extends React.Component {
       <>
         {!this.state.editMode && (
           <div>
-            <div onDoubleClick={this.activateEditMode}>{this.props.status}</div>
+            <div className={s.inactive} onDoubleClick={this.activateEditMode}>
+              {this.props.status}
+            </div>
           </div>
         )}
         {this.state.editMode && (
