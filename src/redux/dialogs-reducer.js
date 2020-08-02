@@ -1,4 +1,3 @@
-let UPDATE_NEW_MESSAGE_TEXT = "UPDATE_NEW_MESSAGE_TEXT"
 let ADD_MESSAGE = "ADD_MESSAGE"
 
 let initialState = {
@@ -30,38 +29,27 @@ let initialState = {
       text: "I'm fine, thank you",
     },
   ],
-  newMessageText: "",
 }
 
 let dialogsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_NEW_MESSAGE_TEXT:
-      return {
-        ...state,
-        newMessageText: action.newMessageText,
-      }
     case ADD_MESSAGE:
-      if (state.newMessageText === "") return state
+      if (action.text === "") return
 
       let newMessage = {
         id: state.messages[state.messages.length - 1].id + 1,
-        text: state.newMessageText,
+        text: action.text,
       }
 
       return {
         ...state,
         messages: [...state.messages, newMessage],
-        newMessageText: "",
       }
     default:
       return state
   }
 }
 
-export let updateMessageText = (newMessageText) => ({
-  type: UPDATE_NEW_MESSAGE_TEXT,
-  newMessageText,
-})
-export let addMessage = () => ({ type: ADD_MESSAGE })
+export let addMessage = (text) => ({ type: ADD_MESSAGE, text })
 
 export default dialogsReducer

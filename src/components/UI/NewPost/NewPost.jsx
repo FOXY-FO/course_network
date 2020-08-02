@@ -1,18 +1,29 @@
 import React from "react"
+import { reduxForm, Field } from "redux-form"
 
-const NewPost = ({newPostText, updateNewPostText, addPost}) => {
-    let handleChange = value => {
-        updateNewPostText(value)
-    }
+let NewPostForm = (props) => {
+  return (
+    <form onSubmit={props.handleSubmit}>
+      <Field name="newPost" component="textarea" />
+      <button type="submit">Add post</button>
+    </form>
+  )
+}
 
-    return (
-        <div>
-            <textarea
-                value={newPostText}
-                onChange={(e) => handleChange(e.target.value)}/>
-            <button onClick={addPost}>Add post</button>
-        </div>
-    )
+NewPostForm = reduxForm({
+  form: "newPost",
+})(NewPostForm)
+
+const NewPost = ({ addPost }) => {
+  let onSubmit = (formData) => {
+    addPost(formData.newPost)
+  }
+
+  return (
+    <div>
+      <NewPostForm onSubmit={onSubmit} />
+    </div>
+  )
 }
 
 export default NewPost
