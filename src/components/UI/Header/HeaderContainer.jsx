@@ -7,10 +7,10 @@ import {
 } from "../../../redux/auth-reducer"
 import Header from "./Header"
 
-let HeaderContainer = (props) => {
+let HeaderContainer = ({ getUserAuthData, ...props }) => {
   useEffect(() => {
-    props.getUserAuthData()
-  }, [])
+    getUserAuthData()
+  }, [getUserAuthData])
 
   return <Header {...props} />
 }
