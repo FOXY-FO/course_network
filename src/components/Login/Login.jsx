@@ -5,6 +5,7 @@ import {
   maxLengthCreator,
   minLengthCreator,
 } from "../../utils/validators"
+import s from "../UI/FormControls/FormControls.module.scss"
 import Input from "../UI/FormControls/Input/Input"
 
 let maxLength50 = maxLengthCreator(50)
@@ -37,6 +38,7 @@ let LoginForm = (props) => {
           me
         </label>
       </div>
+      {props.error && <div className={s.formSummaryError}>{props.error}</div>}
       <div>
         <button type="submit">Submit</button>
       </div>
