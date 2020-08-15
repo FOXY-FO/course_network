@@ -57,8 +57,8 @@ export let addPost = (newPostText) => ({
 export let setProfile = (profile) => ({ type: SET_USER, profile })
 export let setStatus = (status) => ({ type: SET_STATUS, status })
 
-export let getProfileThunk = (userId, currentUserId) => (dispatch) => {
-  api.profile.getProfile(userId ? userId : currentUserId).then((res) => {
+export let getProfileThunk = (userId) => (dispatch) => {
+  api.profile.getProfile(userId).then((res) => {
     dispatch(setProfile(res))
   })
 }

@@ -1,24 +1,31 @@
-let SET_CURRENT_USER = "SET_CURRENT_USER"
+import { getUserAuthData } from "./auth-reducer"
+
+let INITIALIZING_SUCCESS = "INITIALIZING_SUCCESS"
 
 let initialState = {
-  currentUser: {},
+  initialized: false,
 }
 
 let appReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_CURRENT_USER:
+    case INITIALIZING_SUCCESS:
       return {
         ...state,
-        currentUser: { ...action.payload },
+        initialized: true,
       }
     default:
       return state
   }
 }
 
-export let setCurrentUser = (data) => ({
-  type: SET_CURRENT_USER,
-  payload: data,
-})
+export let initializingSuccess = () => ({ type: INITIALIZING_SUCCESS })
+
+export let initializeApp = () => (dispatch) => {
+  let promise = dispatch(getUserAuthData())
+
+  Promise.all([promise]).then(() => {
+    dispatch(initializingSuccess())
+  })
+}
 
 export default appReducer

@@ -1,7 +1,7 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { compose } from "redux"
 import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
+import { withRouter, Redirect } from "react-router-dom"
 import {
   getProfileThunk,
   getUserStatus,
@@ -9,33 +9,39 @@ import {
 } from "../../redux/profile-reducer"
 import Profile from "./Profile"
 
-class ProfileContainer extends React.Component {
-  componentDidMount() {
-    let { getProfile, match, currentUserId } = this.props
+let ProfileContainer = ({
+  getProfile,
+  match,
+  currentUserId,
+  isAuth,
+  ...props
+}) => {
+  let [shouldRedirect, setShouldRedirect] = useState(false)
 
-    getProfile(match.params.userId ? match.params.userId : currentUserId)
-  }
-
-  componentDidUpdate(prevProps) {
-    let { getProfile, match, currentUserId } = this.props
-
-    if (
-      prevProps.currentUserId !== currentUserId ||
-      prevProps.match.params.userId !== match.params.userId
-    ) {
+  useEffect(() => {
+    if (isAuth) {
       getProfile(match.params.userId ? match.params.userId : currentUserId)
+    } else {
+      if (match.params.userId) {
+        getProfile(match.params.userId)
+      } else {
+        setShouldRedirect(true)
+      }
     }
+  }, [match, getProfile, currentUserId, isAuth])
+
+  if (shouldRedirect) {
+    return <Redirect to="/login" />
   }
 
-  render() {
-    return <Profile {...this.props} />
-  }
+  return <Profile {...props} />
 }
 
 let mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
   status: state.profilePage.status,
   currentUserId: state.auth.userId,
+  isAuth: state.auth.isAuth,
 })
 
 export default compose(

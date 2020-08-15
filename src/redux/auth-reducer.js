@@ -33,7 +33,7 @@ export let setUserData = (userId, email, login, isAuth) => ({
 })
 
 export let getUserAuthData = () => (dispatch) => {
-  api.auth.getCurrentUserProfile().then((res) => {
+  return api.auth.getCurrentUserProfile().then((res) => {
     if (res.resultCode === 0) {
       let { id, email, login } = res.data
 

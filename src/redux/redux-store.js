@@ -6,8 +6,10 @@ import profileReducer from "./profile-reducer"
 import dialogsReducer from "./dialogs-reducer"
 import usersReducer from "./users-reducer"
 import authReducer from "./auth-reducer"
+import appReducer from "./app-reducer"
 
 let reducers = combineReducers({
+  app: appReducer,
   sidebar: sidebarReducer,
   profilePage: profileReducer,
   dialogsPage: dialogsReducer,
