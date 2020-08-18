@@ -4,13 +4,11 @@ import cs from "classnames"
 import UsersContainer from "./User/UserContainer"
 
 let Users = ({
-  usersPage: {
-    users,
-    totalUsersCount,
-    pageSize,
-    currentPage,
-    followingInProgress,
-  },
+  users,
+  totalUsersCount,
+  pageSize,
+  currentPage,
+  followingInProgress,
   onPageChange,
 }) => {
   // Pagination
