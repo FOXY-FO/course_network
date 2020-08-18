@@ -1,9 +1,12 @@
 import React from "react"
 import { compose } from "redux"
 import { connect } from "react-redux"
+
 import { addMessage } from "../../redux/dialogs-reducer"
-import Dialogs from "./Dialogs"
 import withAuthRedirect from "../../hoc/withAuthRedirect"
+import { getDialogsPage } from "../../redux/selectors/dialogs-selectors"
+
+import Dialogs from "./Dialogs"
 
 class DialogsContainer extends React.Component {
   render() {
@@ -12,7 +15,7 @@ class DialogsContainer extends React.Component {
 }
 
 let mapStateToProps = (state) => ({
-  dialogsPage: state.dialogsPage,
+  dialogsPage: getDialogsPage(state),
 })
 
 export default compose(

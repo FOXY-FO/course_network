@@ -10,7 +10,7 @@ import {
   getCurrentPage,
   getFollowingInProgress,
   getIsFetching,
-} from "../../redux/users-selectors"
+} from "../../redux/selectors/users-selectors"
 
 class UsersAPIComponent extends React.Component {
   componentDidMount() {

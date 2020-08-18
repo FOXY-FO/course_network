@@ -8,6 +8,8 @@ import {
   updateUserStatus,
 } from "../../redux/profile-reducer"
 import Profile from "./Profile"
+import { getProfile, getStatus } from "../../redux/selectors/profile-selectors"
+import { getIsAuth, getUserId } from "../../redux/selectors/auth-selectors"
 
 let ProfileContainer = ({
   getProfile,
@@ -38,10 +40,10 @@ let ProfileContainer = ({
 }
 
 let mapStateToProps = (state) => ({
-  profile: state.profilePage.profile,
-  status: state.profilePage.status,
-  currentUserId: state.auth.userId,
-  isAuth: state.auth.isAuth,
+  profile: getProfile(state),
+  status: getStatus(state),
+  currentUserId: getUserId(state),
+  isAuth: getIsAuth(state),
 })
 
 export default compose(
