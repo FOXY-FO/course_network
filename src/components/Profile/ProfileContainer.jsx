@@ -36,7 +36,7 @@ let ProfileContainer = ({
     return <Redirect to="/login" />
   }
 
-  return <Profile {...props} />
+  return <Profile {...props} currentUserId={currentUserId} />
 }
 
 let mapStateToProps = (state) => ({
