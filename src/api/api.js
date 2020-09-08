@@ -29,11 +29,7 @@ export default {
       return instance.get(`/profile/${id}`).then((res) => res.data)
     },
     getUserStatus(userId) {
-      return instance.get(`/profile/status/${userId}`).then((res) => {
-        debugger
-
-        return res.data
-      })
+      return instance.get(`/profile/status/${userId}`).then((res) => res.data)
     },
     updateUserStatus(status) {
       return instance.put("/profile/status", { status }).then((res) => res.data)

@@ -1,8 +1,6 @@
-import {connect} from "react-redux";
-import MyPosts from "./MyPosts";
+import { connect } from "react-redux"
+import MyPosts from "./MyPosts"
 
-let mapStateToProps = state => ({posts: state.profilePage.posts})
+let mapStateToProps = (state) => ({ posts: state.profilePage.posts })
 
-const MyPostsContainer = connect(mapStateToProps)(MyPosts)
-
-export default MyPostsContainer
+export default connect(mapStateToProps)(MyPosts)

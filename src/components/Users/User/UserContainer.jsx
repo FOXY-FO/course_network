@@ -6,20 +6,16 @@ import {
 } from "../../../redux/users-reducer"
 import User from "./User"
 
-class UserContainer extends React.Component {
-  follow = (userId) => {
-    this.props.followUser(userId)
+const UserContainer = (props) => {
+  const follow = (userId) => {
+    props.followUser(userId)
   }
 
-  unfollow = (userId) => {
-    this.props.unfollowUser(userId)
+  const unfollow = (userId) => {
+    props.unfollowUser(userId)
   }
 
-  render() {
-    return (
-      <User {...this.props} follow={this.follow} unfollow={this.unfollow} />
-    )
-  }
+  return <User {...props} follow={follow} unfollow={unfollow} />
 }
 
 export default connect(null, {

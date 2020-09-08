@@ -1,8 +1,6 @@
-import React from "react"
+import React, { useEffect, memo } from "react"
 import { connect } from "react-redux"
 import { getUsersThunkCreator } from "../../redux/users-reducer"
-import Users from "./Users"
-import Preloader from "../UI/Preloader/Preloader"
 import {
   getUsers,
   getTotalUsersCount,
@@ -11,28 +9,24 @@ import {
   getFollowingInProgress,
   getIsFetching,
 } from "../../redux/selectors/users-selectors"
+import Users from "./Users"
+import Preloader from "../UI/Preloader/Preloader"
 
-class UsersAPIComponent extends React.Component {
-  componentDidMount() {
-    let { getUsers, currentPage, pageSize } = this.props
-    getUsers(currentPage, pageSize)
-  }
+const UsersAPIComponent = memo(
+  ({ isFetching, getUsers, currentPage, pageSize, ...props }) => {
+    useEffect(() => {
+      getUsers(currentPage, pageSize)
+    }, [currentPage, pageSize])
 
-  onPageChange = (page) => {
-    let { getUsers, pageSize } = this.props
-    getUsers(page, pageSize)
-  }
-
-  render() {
-    let { isFetching, ...props } = this.props
-
-    if (isFetching) {
-      return <Preloader />
+    const onPageChange = (page) => {
+      getUsers(page, pageSize)
     }
 
-    return <Users {...props} onPageChange={this.onPageChange} />
+    if (isFetching) return <Preloader />
+
+    return <Users {...props} onPageChange={onPageChange} />
   }
-}
+)
 
 let mapStateToProps = (state) => ({
   users: getUsers(state),
@@ -43,8 +37,6 @@ let mapStateToProps = (state) => ({
   isFetching: getIsFetching(state),
 })
 
-let UsersContainer = connect(mapStateToProps, {
+export default connect(mapStateToProps, {
   getUsers: getUsersThunkCreator,
 })(UsersAPIComponent)
-
-export default UsersContainer
