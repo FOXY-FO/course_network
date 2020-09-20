@@ -1,8 +1,9 @@
 import React, { useEffect } from "react"
-import { connect } from "react-redux"
-import { Route, Switch, withRouter } from "react-router-dom"
+import { connect, Provider } from "react-redux"
+import { Route, Switch, withRouter, BrowserRouter } from "react-router-dom"
 import { compose } from "redux"
 
+import store from "../../redux/redux-store"
 import "./App.scss"
 import { initializeApp } from "../../redux/app-reducer"
 import { getInitialized } from "../../redux/selectors/app-selectors"
@@ -28,6 +29,7 @@ let App = ({ initialized, initializeApp }) => {
   }
 
   return (
+    //   getUserStatus(currentUserId)
     <div className="app-wrapper">
       <HeaderContainer />
       <NavBar />
@@ -51,7 +53,21 @@ let mapStateToProps = (state) => ({
   initialized: getInitialized(state),
 })
 
-export default compose(
+let AppContainer = compose(
   withRouter,
   connect(mapStateToProps, { initializeApp })
 )(App)
+
+let AppWithRouter = () => {
+  return (
+    <React.StrictMode>
+      <BrowserRouter>
+        <Provider store={store}>
+          <AppContainer />
+        </Provider>
+      </BrowserRouter>
+    </React.StrictMode>
+  )
+}
+
+export default AppWithRouter
