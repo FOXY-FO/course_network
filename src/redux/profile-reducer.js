@@ -1,8 +1,8 @@
 import api from "../api/api"
 
-let ADD_POST = "ADD_POST"
-let SET_USER = "SET_USER"
-let SET_STATUS = "SET_STATUS"
+const ADD_POST = "network/profile-reducer/ADD_POST"
+const SET_USER = "network/profile-reducer/SET_USER"
+const SET_STATUS = "network/profile-reducer/SET_STATUS"
 
 let initialState = {
   posts: [
@@ -24,7 +24,8 @@ let initialState = {
 let profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST:
-      if (action.newPostText === "") return
+      if (action.newPostText === "" || typeof action.newPostText !== "string")
+        return
 
       let newPost = {
         id: state.posts[state.posts.length - 1].id + 1,
@@ -57,22 +58,19 @@ export let addPost = (newPostText) => ({
 export let setProfile = (profile) => ({ type: SET_USER, profile })
 export let setStatus = (status) => ({ type: SET_STATUS, status })
 
-export let getProfileThunk = (userId) => (dispatch) => {
-  api.profile.getProfile(userId).then((res) => {
-    dispatch(setProfile(res))
-  })
+export let getProfileThunk = (userId) => async (dispatch) => {
+  let res = await api.profile.getProfile(userId)
+  dispatch(setProfile(res))
 }
-export let getUserStatus = (userId) => (dispatch) => {
-  api.profile.getUserStatus(userId).then((status) => {
+export let getUserStatus = (userId) => async (dispatch) => {
+  let status = await api.profile.getUserStatus(userId)
+  dispatch(setStatus(status))
+}
+export let updateUserStatus = (status) => async (dispatch) => {
+  let data = await api.profile.updateUserStatus(status)
+  if (data.resultCode === 0) {
     dispatch(setStatus(status))
-  })
-}
-export let updateUserStatus = (status) => (dispatch) => {
-  api.profile.updateUserStatus(status).then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(setStatus(status))
-    }
-  })
+  }
 }
 
 export default profileReducer

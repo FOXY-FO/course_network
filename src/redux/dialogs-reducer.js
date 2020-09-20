@@ -1,4 +1,4 @@
-let ADD_MESSAGE = "ADD_MESSAGE"
+const ADD_MESSAGE = "network/dialogs-reducer/ADD_MESSAGE"
 
 let initialState = {
   users: [
@@ -34,7 +34,7 @@ let initialState = {
 let dialogsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_MESSAGE:
-      if (action.text === "") return
+      if (action.text === "" || typeof action.text !== "string") return
 
       let newMessage = {
         id: state.messages[state.messages.length - 1].id + 1,

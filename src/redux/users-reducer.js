@@ -1,16 +1,17 @@
 import api from "../api/api"
 
-let FOLLOW = "FOLLOW"
-let UNFOLLOW = "UNFOLLOW"
-let SET_USERS = "SET_USERS"
-let SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT"
-let SET_CURRENT_PAGE = "SET_CURRENT_PAGE"
-let TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING"
-let TOGGLE_FOLLOWING_IN_PROGRESS = "TOGGLE_FOLLOWING_IN_PROGRESS"
+const FOLLOW = "network/users-reducer/FOLLOW"
+const UNFOLLOW = "network/users-reducer/UNFOLLOW"
+const SET_USERS = "network/users-reducer/SET_USERS"
+const SET_TOTAL_USERS_COUNT = "network/users-reducer/SET_TOTAL_USERS_COUNT"
+const SET_CURRENT_PAGE = "network/users-reducer/SET_CURRENT_PAGE"
+const TOGGLE_IS_FETCHING = "network/users-reducer/TOGGLE_IS_FETCHING"
+const TOGGLE_FOLLOWING_IN_PROGRESS =
+  "network/users-reducer/TOGGLE_FOLLOWING_IN_PROGRESS"
 
 let initialState = {
   users: [],
-  pageSize: 5,
+  pageSize: 10,
   totalUsersCount: 0,
   currentPage: 1,
   isFetching: false,
@@ -92,33 +93,41 @@ export let toggleFollowingInProgress = (userId) => ({
   userId,
 })
 
-export let getUsersThunkCreator = (currentPage, pageSize) => (dispatch) => {
+export let getUsersThunkCreator = (currentPage, pageSize) => async (
+  dispatch
+) => {
   dispatch(toggleFetching(true))
 
-  api.users.getUsers(currentPage, pageSize).then((response) => {
-    dispatch(setUsers(response.items))
-    dispatch(setTotalUsersCount(response.totalCount))
-    dispatch(setCurrentPage(currentPage))
-    dispatch(toggleFetching(false))
-  })
+  let response = await api.users.getUsers(currentPage, pageSize)
+
+  dispatch(setUsers(response.items))
+  dispatch(setTotalUsersCount(response.totalCount))
+  dispatch(setCurrentPage(currentPage))
+
+  dispatch(toggleFetching(false))
 }
-export let followUserThunkCreator = (userId) => (dispatch) => {
+
+const followUnfollowFlow = async (
+  dispatch,
+  userId,
+  apiMethod,
+  actionCreator
+) => {
   dispatch(toggleFollowingInProgress(userId))
-  api.users.follow(userId).then((res) => {
-    if (res.resultCode === 0) {
-      dispatch(followSuccess(userId))
-    }
-    dispatch(toggleFollowingInProgress(userId))
-  })
+
+  let res = await api.users[apiMethod](userId)
+  if (res.resultCode === 0) {
+    dispatch(actionCreator(userId))
+  }
+
+  dispatch(toggleFollowingInProgress(userId))
 }
-export let unfollowUserThunkCreator = (userId) => (dispatch) => {
-  dispatch(toggleFollowingInProgress(userId))
-  api.users.unfollow(userId).then((res) => {
-    if (res.resultCode === 0) {
-      dispatch(unfollowSuccess(userId))
-    }
-    dispatch(toggleFollowingInProgress(userId))
-  })
+
+export let followUserThunkCreator = (userId) => async (dispatch) => {
+  followUnfollowFlow(dispatch, userId, "follow", followSuccess)
+}
+export let unfollowUserThunkCreator = (userId) => async (dispatch) => {
+  followUnfollowFlow(dispatch, userId, "unfollow", unfollowSuccess)
 }
 
 export default usersReducer

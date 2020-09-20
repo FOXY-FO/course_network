@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react"
 import s from "./ProfileStatus.module.scss"
 
-const ProfileStatus = (props) => {
+const ProfileStatus = ({ getUserStatus, currentUserId, ...props }) => {
   const [editMode, setEditMode] = useState(false)
   const [status, setStatus] = useState(props.status)
 
   useEffect(() => {
-    props.getUserStatus(props.currentUserId)
-  }, [props.currentUserId])
+    getUserStatus(currentUserId)
+  }, [currentUserId, getUserStatus])
 
   useEffect(() => {
     setStatus(props.status)

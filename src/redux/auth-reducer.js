@@ -1,7 +1,7 @@
 import api from "../api/api"
 import { stopSubmit } from "redux-form"
 
-let SET_USER_DATA = "SET_USER_DATA"
+const SET_USER_DATA = "network/auth-reducer/SET_USER_DATA"
 
 let initialState = {
   userId: null,
@@ -32,35 +32,36 @@ export let setUserData = (userId, email, login, isAuth) => ({
   },
 })
 
-export let getUserAuthData = () => (dispatch) => {
-  return api.auth.getCurrentUserProfile().then((res) => {
-    if (res.resultCode === 0) {
-      let { id, email, login } = res.data
+export let getUserAuthData = () => async (dispatch) => {
+  let res = await api.auth.getCurrentUserProfile()
 
-      dispatch(setUserData(id, email, login, true))
-    }
-  })
+  if (res.resultCode === 0) {
+    let { id, email, login } = res.data
+    dispatch(setUserData(id, email, login, true))
+  }
+
+  return res
 }
 
-export let login = (email, password, rememberMe) => (dispatch) => {
-  api.auth.login(email, password, rememberMe).then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(getUserAuthData())
-    } else {
-      if (data.messages.length && data.messages[0].length > 0) {
-        let action = stopSubmit("login", { _error: data.messages[0] })
-        dispatch(action)
-      }
+export let login = (email, password, rememberMe) => async (dispatch) => {
+  let data = await api.auth.login(email, password, rememberMe)
+
+  if (data.resultCode === 0) {
+    dispatch(getUserAuthData())
+  } else {
+    if (data.messages.length && data.messages[0].length) {
+      let action = stopSubmit("login", { _error: data.messages[0] })
+      dispatch(action)
     }
-  })
+  }
 }
 
-export let logout = () => (dispatch) => {
-  api.auth.logout().then((res) => {
-    if (res.resultCode === 0) {
-      dispatch(setUserData(null, null, null, false))
-    }
-  })
+export let logout = () => async (dispatch) => {
+  let res = await api.auth.logout()
+
+  if (res.resultCode === 0) {
+    dispatch(setUserData(null, null, null, false))
+  }
 }
 
 export default authReducer

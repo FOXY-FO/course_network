@@ -13,18 +13,18 @@ import Users from "./Users"
 import Preloader from "../UI/Preloader/Preloader"
 
 const UsersAPIComponent = memo(
-  ({ isFetching, getUsers, currentPage, pageSize, ...props }) => {
+  ({ isFetching, getUsersThunkCreator, currentPage, pageSize, ...props }) => {
     useEffect(() => {
-      getUsers(currentPage, pageSize)
-    }, [currentPage, pageSize])
+      getUsersThunkCreator(currentPage, pageSize)
+    }, [currentPage, pageSize, getUsersThunkCreator])
 
     const onPageChange = (page) => {
-      getUsers(page, pageSize)
+      getUsersThunkCreator(page, pageSize)
     }
 
     if (isFetching) return <Preloader />
 
-    return <Users {...props} onPageChange={onPageChange} />
+    return <Users {...props} pageSize={pageSize} onPageChange={onPageChange} />
   }
 )
 
@@ -38,5 +38,5 @@ let mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps, {
-  getUsers: getUsersThunkCreator,
+  getUsersThunkCreator,
 })(UsersAPIComponent)
