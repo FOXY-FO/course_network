@@ -24,7 +24,14 @@ const UsersAPIComponent = memo(
 
     if (isFetching) return <Preloader />
 
-    return <Users {...props} pageSize={pageSize} onPageChange={onPageChange} />
+    return (
+      <Users
+        {...props}
+        pageSize={pageSize}
+        currentPage={currentPage}
+        onPageChange={onPageChange}
+      />
+    )
   }
 )
 
