@@ -3,12 +3,12 @@
     "static/js/0.af06f071.chunk.js": "/course_network/static/js/0.af06f071.chunk.js",
     "static/js/0.af06f071.chunk.js.map": "/course_network/static/js/0.af06f071.chunk.js.map",
     "main.css": "/course_network/static/css/main.03ca71ed.chunk.css",
-    "main.js": "/course_network/static/js/main.94ad50ef.chunk.js",
-    "main.js.map": "/course_network/static/js/main.94ad50ef.chunk.js.map",
+    "main.js": "/course_network/static/js/main.4f67447b.chunk.js",
+    "main.js.map": "/course_network/static/js/main.4f67447b.chunk.js.map",
     "runtime-main.js": "/course_network/static/js/runtime-main.b33442ea.js",
     "runtime-main.js.map": "/course_network/static/js/runtime-main.b33442ea.js.map",
-    "static/js/3.ad3b7771.chunk.js": "/course_network/static/js/3.ad3b7771.chunk.js",
-    "static/js/3.ad3b7771.chunk.js.map": "/course_network/static/js/3.ad3b7771.chunk.js.map",
+    "static/js/3.6742cf0b.chunk.js": "/course_network/static/js/3.6742cf0b.chunk.js",
+    "static/js/3.6742cf0b.chunk.js.map": "/course_network/static/js/3.6742cf0b.chunk.js.map",
     "static/css/4.68cbc107.chunk.css": "/course_network/static/css/4.68cbc107.chunk.css",
     "static/js/4.6d8c961f.chunk.js": "/course_network/static/js/4.6d8c961f.chunk.js",
     "static/js/4.6d8c961f.chunk.js.map": "/course_network/static/js/4.6d8c961f.chunk.js.map",
@@ -19,20 +19,20 @@
     "static/js/6.bb27e048.chunk.js": "/course_network/static/js/6.bb27e048.chunk.js",
     "static/js/6.bb27e048.chunk.js.map": "/course_network/static/js/6.bb27e048.chunk.js.map",
     "index.html": "/course_network/index.html",
-    "precache-manifest.b4d88be22720dad2f3ec1431bd6d637c.js": "/course_network/precache-manifest.b4d88be22720dad2f3ec1431bd6d637c.js",
+    "precache-manifest.62cb5991016ff0e31a68c65ef0cc3493.js": "/course_network/precache-manifest.62cb5991016ff0e31a68c65ef0cc3493.js",
     "service-worker.js": "/course_network/service-worker.js",
     "static/css/4.68cbc107.chunk.css.map": "/course_network/static/css/4.68cbc107.chunk.css.map",
     "static/css/5.1f265bf4.chunk.css.map": "/course_network/static/css/5.1f265bf4.chunk.css.map",
     "static/css/6.7497fdd2.chunk.css.map": "/course_network/static/css/6.7497fdd2.chunk.css.map",
     "static/css/main.03ca71ed.chunk.css.map": "/course_network/static/css/main.03ca71ed.chunk.css.map",
-    "static/js/3.ad3b7771.chunk.js.LICENSE.txt": "/course_network/static/js/3.ad3b7771.chunk.js.LICENSE.txt",
+    "static/js/3.6742cf0b.chunk.js.LICENSE.txt": "/course_network/static/js/3.6742cf0b.chunk.js.LICENSE.txt",
     "static/media/no-user.jpg": "/course_network/static/media/no-user.22f91fe6.jpg",
     "static/media/preloader.svg": "/course_network/static/media/preloader.3c00e92e.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.b33442ea.js",
-    "static/js/3.ad3b7771.chunk.js",
+    "static/js/3.6742cf0b.chunk.js",
     "static/css/main.03ca71ed.chunk.css",
-    "static/js/main.94ad50ef.chunk.js"
+    "static/js/main.4f67447b.chunk.js"
   ]
 }
