@@ -1,0 +1,38 @@
+{
+  "files": {
+    "static/js/0.af06f071.chunk.js": "/course_network/static/js/0.af06f071.chunk.js",
+    "static/js/0.af06f071.chunk.js.map": "/course_network/static/js/0.af06f071.chunk.js.map",
+    "main.css": "/course_network/static/css/main.03ca71ed.chunk.css",
+    "main.js": "/course_network/static/js/main.95f20a69.chunk.js",
+    "main.js.map": "/course_network/static/js/main.95f20a69.chunk.js.map",
+    "runtime-main.js": "/course_network/static/js/runtime-main.b33442ea.js",
+    "runtime-main.js.map": "/course_network/static/js/runtime-main.b33442ea.js.map",
+    "static/js/3.ad3b7771.chunk.js": "/course_network/static/js/3.ad3b7771.chunk.js",
+    "static/js/3.ad3b7771.chunk.js.map": "/course_network/static/js/3.ad3b7771.chunk.js.map",
+    "static/css/4.68cbc107.chunk.css": "/course_network/static/css/4.68cbc107.chunk.css",
+    "static/js/4.6d8c961f.chunk.js": "/course_network/static/js/4.6d8c961f.chunk.js",
+    "static/js/4.6d8c961f.chunk.js.map": "/course_network/static/js/4.6d8c961f.chunk.js.map",
+    "static/css/5.1f265bf4.chunk.css": "/course_network/static/css/5.1f265bf4.chunk.css",
+    "static/js/5.fbdac9e2.chunk.js": "/course_network/static/js/5.fbdac9e2.chunk.js",
+    "static/js/5.fbdac9e2.chunk.js.map": "/course_network/static/js/5.fbdac9e2.chunk.js.map",
+    "static/css/6.7497fdd2.chunk.css": "/course_network/static/css/6.7497fdd2.chunk.css",
+    "static/js/6.bb27e048.chunk.js": "/course_network/static/js/6.bb27e048.chunk.js",
+    "static/js/6.bb27e048.chunk.js.map": "/course_network/static/js/6.bb27e048.chunk.js.map",
+    "index.html": "/course_network/index.html",
+    "precache-manifest.35dfd125040d74b38c420da20b2e0229.js": "/course_network/precache-manifest.35dfd125040d74b38c420da20b2e0229.js",
+    "service-worker.js": "/course_network/service-worker.js",
+    "static/css/4.68cbc107.chunk.css.map": "/course_network/static/css/4.68cbc107.chunk.css.map",
+    "static/css/5.1f265bf4.chunk.css.map": "/course_network/static/css/5.1f265bf4.chunk.css.map",
+    "static/css/6.7497fdd2.chunk.css.map": "/course_network/static/css/6.7497fdd2.chunk.css.map",
+    "static/css/main.03ca71ed.chunk.css.map": "/course_network/static/css/main.03ca71ed.chunk.css.map",
+    "static/js/3.ad3b7771.chunk.js.LICENSE.txt": "/course_network/static/js/3.ad3b7771.chunk.js.LICENSE.txt",
+    "static/media/no-user.jpg": "/course_network/static/media/no-user.22f91fe6.jpg",
+    "static/media/preloader.svg": "/course_network/static/media/preloader.3c00e92e.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b33442ea.js",
+    "static/js/3.ad3b7771.chunk.js",
+    "static/css/main.03ca71ed.chunk.css",
+    "static/js/main.95f20a69.chunk.js"
+  ]
+}
