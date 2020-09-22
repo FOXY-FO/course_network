@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { connect, Provider } from "react-redux"
-import { Route, Switch, withRouter, BrowserRouter } from "react-router-dom"
+import { Route, Switch, withRouter, HashRouter } from "react-router-dom"
 import { compose } from "redux"
 
 import store from "../../redux/redux-store"
@@ -68,11 +68,11 @@ let AppContainer = compose(
 let AppWithRouter = () => {
   return (
     <React.StrictMode>
-      <BrowserRouter>
+      <HashRouter>
         <Provider store={store}>
           <AppContainer />
         </Provider>
-      </BrowserRouter>
+      </HashRouter>
     </React.StrictMode>
   )
 }
