@@ -6,6 +6,7 @@ import {
   getProfileThunk,
   getUserStatus,
   updateUserStatus,
+  uploadPhoto,
 } from "../../redux/profile-reducer"
 import Profile from "./Profile"
 import { getProfile, getStatus } from "../../redux/selectors/profile-selectors"
@@ -51,6 +52,7 @@ export default compose(
     getProfile: getProfileThunk,
     getUserStatus,
     updateUserStatus,
+    uploadPhoto,
   }),
   withRouter
 )(ProfileContainer)

@@ -34,6 +34,15 @@ export default {
     updateUserStatus(status) {
       return instance.put("/profile/status", { status }).then((res) => res.data)
     },
+    uploadPhoto(image) {
+      let formData = new FormData()
+      formData.append("image", image)
+      return instance.put("/profile/photo", formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+    },
   },
 
   auth: {

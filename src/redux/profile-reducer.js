@@ -3,6 +3,7 @@ import api from "../api/api"
 const ADD_POST = "network/profile-reducer/ADD_POST"
 const SET_USER = "network/profile-reducer/SET_USER"
 const SET_STATUS = "network/profile-reducer/SET_STATUS"
+const UPLOAD_PHOTO_SUCCESS = "network/profile-reducer/UPLOAD_PHOTO_SUCCESS"
 
 let initialState = {
   posts: [
@@ -47,16 +48,29 @@ let profileReducer = (state = initialState, action) => {
         ...state,
         status: action.status,
       }
+    case UPLOAD_PHOTO_SUCCESS:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          photos: action.photos,
+        },
+      }
     default:
       return state
   }
 }
+
 export let addPost = (newPostText) => ({
   type: ADD_POST,
   newPostText,
 })
 export let setProfile = (profile) => ({ type: SET_USER, profile })
 export let setStatus = (status) => ({ type: SET_STATUS, status })
+export let uploadPhotoSuccess = (photos) => ({
+  type: UPLOAD_PHOTO_SUCCESS,
+  photos,
+})
 
 export let getProfileThunk = (userId) => async (dispatch) => {
   let res = await api.profile.getProfile(userId)
@@ -70,6 +84,12 @@ export let updateUserStatus = (status) => async (dispatch) => {
   let data = await api.profile.updateUserStatus(status)
   if (data.resultCode === 0) {
     dispatch(setStatus(status))
+  }
+}
+export let uploadPhoto = (image) => async (dispatch) => {
+  let res = await api.profile.uploadPhoto(image)
+  if (res.data.resultCode === 0) {
+    dispatch(uploadPhotoSuccess(res.data.data.photos))
   }
 }
 
