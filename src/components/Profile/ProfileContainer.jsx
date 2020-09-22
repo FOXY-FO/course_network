@@ -7,6 +7,7 @@ import {
   getUserStatus,
   updateUserStatus,
   uploadPhoto,
+  saveProfile,
 } from "../../redux/profile-reducer"
 import Profile from "./Profile"
 import { getProfile, getStatus } from "../../redux/selectors/profile-selectors"
@@ -20,6 +21,7 @@ let ProfileContainer = ({
   ...props
 }) => {
   let [shouldRedirect, setShouldRedirect] = useState(false)
+  let isOwner = isAuth && !match.params.userId
 
   useEffect(() => {
     if (isAuth) {
@@ -37,7 +39,7 @@ let ProfileContainer = ({
     return <Redirect to="/login" />
   }
 
-  return <Profile {...props} currentUserId={currentUserId} />
+  return <Profile {...props} isOwner={isOwner} currentUserId={currentUserId} />
 }
 
 let mapStateToProps = (state) => ({
@@ -53,6 +55,7 @@ export default compose(
     getUserStatus,
     updateUserStatus,
     uploadPhoto,
+    saveProfile,
   }),
   withRouter
 )(ProfileContainer)

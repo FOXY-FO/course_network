@@ -43,6 +43,9 @@ export default {
         },
       })
     },
+    updateProfileInfo(info) {
+      return instance.put("/profile", info)
+    },
   },
 
   auth: {

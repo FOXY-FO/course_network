@@ -92,5 +92,11 @@ export let uploadPhoto = (image) => async (dispatch) => {
     dispatch(uploadPhotoSuccess(res.data.data.photos))
   }
 }
+export let saveProfile = (info) => async (dispatch, getState) => {
+  let res = await api.profile.updateProfileInfo(info)
+  if (res.data.resultCode === 0) {
+    dispatch(getProfileThunk(getState().auth.userId))
+  }
+}
 
 export default profileReducer
