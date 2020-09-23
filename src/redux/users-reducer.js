@@ -1,4 +1,4 @@
-import api from "../api/api"
+import { usersAPI } from "../api/api"
 
 const FOLLOW = "network/users-reducer/FOLLOW"
 const UNFOLLOW = "network/users-reducer/UNFOLLOW"
@@ -98,7 +98,7 @@ export let getUsersThunkCreator = (currentPage, pageSize) => async (
 ) => {
   dispatch(toggleFetching(true))
 
-  let response = await api.users.getUsers(currentPage, pageSize)
+  let response = await usersAPI.getUsers(currentPage, pageSize)
 
   dispatch(setUsers(response.items))
   dispatch(setTotalUsersCount(response.totalCount))
@@ -115,7 +115,7 @@ const followUnfollowFlow = async (
 ) => {
   dispatch(toggleFollowingInProgress(userId))
 
-  let res = await api.users[apiMethod](userId)
+  let res = await usersAPI[apiMethod](userId)
   if (res.resultCode === 0) {
     dispatch(actionCreator(userId))
   }

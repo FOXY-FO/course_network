@@ -8,59 +8,63 @@ let instance = axios.create({
   },
 })
 
-export default {
-  users: {
-    getUsers(currentPage = 1, pageSize = 10) {
-      return instance
-        .get(`/users?page=${currentPage}&count=${pageSize}`)
-        .then((res) => res.data)
-    },
-    follow(userId) {
-      return instance.post(`/follow/${userId}`).then((res) => res.data)
-    },
-
-    unfollow(userId) {
-      return instance.delete(`/follow/${userId}`).then((res) => res.data)
-    },
+export const usersAPI = {
+  getUsers(currentPage = 1, pageSize = 10) {
+    return instance
+      .get(`/users?page=${currentPage}&count=${pageSize}`)
+      .then((res) => res.data)
+  },
+  follow(userId) {
+    return instance.post(`/follow/${userId}`).then((res) => res.data)
   },
 
-  profile: {
-    getProfile(id) {
-      return instance.get(`/profile/${id}`).then((res) => res.data)
-    },
-    getUserStatus(userId) {
-      return instance.get(`/profile/status/${userId}`).then((res) => res.data)
-    },
-    updateUserStatus(status) {
-      return instance.put("/profile/status", { status }).then((res) => res.data)
-    },
-    uploadPhoto(image) {
-      let formData = new FormData()
-      formData.append("image", image)
-      return instance.put("/profile/photo", formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      })
-    },
-    updateProfileInfo(info) {
-      return instance.put("/profile", info)
-    },
+  unfollow(userId) {
+    return instance.delete(`/follow/${userId}`).then((res) => res.data)
+  },
+}
+
+export const profileAPI = {
+  getProfile(id) {
+    return instance.get(`/profile/${id}`).then((res) => res.data)
+  },
+  getUserStatus(userId) {
+    return instance.get(`/profile/status/${userId}`).then((res) => res.data)
+  },
+  updateUserStatus(status) {
+    return instance.put("/profile/status", { status }).then((res) => res.data)
+  },
+  uploadPhoto(image) {
+    let formData = new FormData()
+    formData.append("image", image)
+    return instance.put("/profile/photo", formData, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    })
+  },
+  updateProfileInfo(info) {
+    return instance.put("/profile", info)
+  },
+}
+
+export const authAPI = {
+  getCurrentUserProfile() {
+    return instance.get(`/auth/me`).then((res) => res.data)
   },
 
-  auth: {
-    getCurrentUserProfile() {
-      return instance.get(`/auth/me`).then((res) => res.data)
-    },
+  login(email, password, rememberMe = false, captcha = "") {
+    return instance
+      .post("/auth/login", { email, password, rememberMe, captcha })
+      .then((res) => res.data)
+  },
 
-    login(email, password, rememberMe = false) {
-      return instance
-        .post("/auth/login", { email, password, rememberMe })
-        .then((res) => res.data)
-    },
+  logout() {
+    return instance.delete("/auth/login").then((res) => res.data)
+  },
+}
 
-    logout() {
-      return instance.delete("/auth/login").then((res) => res.data)
-    },
+export const securityAPI = {
+  getCaptchaURL() {
+    return instance.get("/security/get-captcha-url")
   },
 }

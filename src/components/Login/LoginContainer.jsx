@@ -5,13 +5,15 @@ import { login } from "../../redux/auth-reducer"
 import withProfileRedirect from "../../hoc/withProfileRedirect"
 import Login from "./Login"
 
-class LoginContainer extends React.Component {
-  render() {
-    return <Login {...this.props} />
-  }
+const LoginContainer = (props) => {
+  return <Login {...props} />
 }
 
+const mapStateToProps = (state) => ({
+  captchaURL: state.auth.captchaURL,
+})
+
 export default compose(
-  connect(null, { login }),
+  connect(mapStateToProps, { login }),
   withProfileRedirect
 )(LoginContainer)

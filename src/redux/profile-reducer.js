@@ -1,5 +1,5 @@
 import { stopSubmit } from "redux-form"
-import api from "../api/api"
+import { profileAPI } from "../api/api"
 
 const ADD_POST = "network/profile-reducer/ADD_POST"
 const SET_USER = "network/profile-reducer/SET_USER"
@@ -74,27 +74,27 @@ export let uploadPhotoSuccess = (photos) => ({
 })
 
 export let getProfileThunk = (userId) => async (dispatch) => {
-  let res = await api.profile.getProfile(userId)
+  let res = await profileAPI.getProfile(userId)
   dispatch(setProfile(res))
 }
 export let getUserStatus = (userId) => async (dispatch) => {
-  let status = await api.profile.getUserStatus(userId)
+  let status = await profileAPI.getUserStatus(userId)
   dispatch(setStatus(status))
 }
 export let updateUserStatus = (status) => async (dispatch) => {
-  let data = await api.profile.updateUserStatus(status)
+  let data = await profileAPI.updateUserStatus(status)
   if (data.resultCode === 0) {
     dispatch(setStatus(status))
   }
 }
 export let uploadPhoto = (image) => async (dispatch) => {
-  let res = await api.profile.uploadPhoto(image)
+  let res = await profileAPI.uploadPhoto(image)
   if (res.data.resultCode === 0) {
     dispatch(uploadPhotoSuccess(res.data.data.photos))
   }
 }
 export let saveProfile = (info) => async (dispatch, getState) => {
-  let res = await api.profile.updateProfileInfo(info)
+  let res = await profileAPI.updateProfileInfo(info)
   if (res.data.resultCode === 0) {
     dispatch(getProfileThunk(getState().auth.userId))
   } else {
