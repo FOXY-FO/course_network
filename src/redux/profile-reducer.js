@@ -1,3 +1,4 @@
+import { stopSubmit } from "redux-form"
 import api from "../api/api"
 
 const ADD_POST = "network/profile-reducer/ADD_POST"
@@ -96,6 +97,52 @@ export let saveProfile = (info) => async (dispatch, getState) => {
   let res = await api.profile.updateProfileInfo(info)
   if (res.data.resultCode === 0) {
     dispatch(getProfileThunk(getState().auth.userId))
+  } else {
+    let errorMessage = res.data.messages[0]
+    function takePropsFromString(str) {
+      str = str.split("")
+      let leftBound = str.indexOf("(")
+      let rightBound = str.indexOf(")")
+      return str
+        .filter((char, index) => index > leftBound && index < rightBound)
+        .join("")
+        .split("->")
+        .map((prop) => {
+          let firstChar = prop.charAt(0).toLowerCase()
+          prop = prop.split("")
+          prop[0] = firstChar
+          return prop.join("")
+        })
+    }
+
+    //********SHITCODE STARTS******************SHIIIIIIIIIIIT COOOOOOOODEEEE!!!!!!!!!! MUST EDIT THIS SHIT LATER!!!!!!!!!!!!!!!!!
+    function composeObject(arr, value) {
+      let result = arr.reduce((acc, item, index, array) => {
+        if (array.length === 1) {
+          return { [item]: value }
+        }
+
+        if (index === array.length - 1) {
+          return { [array[index - 1]]: { [item]: value } }
+        }
+
+        if (index === 0) return { [item]: {} }
+
+        return { [array[index - 1]]: { [item]: {} } }
+      }, {})
+
+      return result
+    }
+    //**********SHITCODE ENDS*************SHIIIIIIIIIIIT COOOOOOOODEEEE!!!!!!!!!! MUST EDIT THIS SHIT LATER!!!!!!!!!!!!!!!!!
+
+    dispatch(
+      stopSubmit(
+        "edit-profile",
+        composeObject(takePropsFromString(errorMessage), errorMessage)
+      )
+    )
+
+    return Promise.reject(errorMessage)
   }
 }
 

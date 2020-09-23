@@ -1,5 +1,6 @@
 import React from "react"
 import { reduxForm } from "redux-form"
+import s from "../../../UI/FormControls/FormControls.module.scss"
 import { createField } from "../../../UI/FormControls/FormControls"
 import {
   required,
@@ -14,12 +15,13 @@ const maxLength10000 = maxLengthCreator(10000)
 const maxLength30000 = maxLengthCreator(30000)
 const minLength1 = minLengthCreator(1)
 
-let ProfileDataForm = ({ handleSubmit, profile }) => {
+let ProfileDataForm = ({ handleSubmit, profile, error }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <button type="submit">save</button>
       </div>
+      {error && <div className={s.formSummaryError}>{error}</div>}
       <div>
         <b>Name:</b>{" "}
         {createField(
@@ -34,7 +36,7 @@ let ProfileDataForm = ({ handleSubmit, profile }) => {
         {createField(
           "Type the informatino about you",
           "aboutMe",
-          [maxLength30000, required],
+          [maxLength30000],
           Textarea
         )}
       </div>

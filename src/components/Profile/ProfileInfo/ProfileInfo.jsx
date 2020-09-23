@@ -22,9 +22,9 @@ const ProfileInfo = ({
   if (!profile) return <Preloader />
 
   const onEditProfileSubmit = (formData) => {
-    console.log(formData)
-    setEditMode(false)
-    saveProfile(formData)
+    saveProfile(formData).then(() => {
+      setEditMode(false)
+    })
   }
 
   return (
