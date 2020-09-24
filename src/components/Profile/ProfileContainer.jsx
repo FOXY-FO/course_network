@@ -9,18 +9,18 @@ import {
   uploadPhoto,
   saveProfile,
 } from "../../redux/profile-reducer"
-import Profile from "./Profile"
 import { getProfile, getStatus } from "../../redux/selectors/profile-selectors"
 import { getIsAuth, getUserId } from "../../redux/selectors/auth-selectors"
+import Profile from "./Profile"
 
-let ProfileContainer = ({
+const ProfileContainer = ({
   getProfile,
   match,
   currentUserId,
   isAuth,
   ...props
 }) => {
-  let [shouldRedirect, setShouldRedirect] = useState(false)
+  const [shouldRedirect, setShouldRedirect] = useState(false)
   let isOwner = isAuth && !match.params.userId
 
   useEffect(() => {
@@ -42,7 +42,7 @@ let ProfileContainer = ({
   return <Profile {...props} isOwner={isOwner} currentUserId={currentUserId} />
 }
 
-let mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ({
   profile: getProfile(state),
   status: getStatus(state),
   currentUserId: getUserId(state),

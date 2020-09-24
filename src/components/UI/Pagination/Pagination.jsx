@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import cs from "classnames"
+import cn from "classnames"
 import s from "./Pagination.module.scss"
 
 const Pagination = ({ total, pageSize, currentPage, onPageChange }) => {
@@ -35,7 +35,7 @@ const Pagination = ({ total, pageSize, currentPage, onPageChange }) => {
           .map((number) => (
             <div key={number} className={s.itemWrapper}>
               <button
-                className={cs(s.item, { [s.selected]: currentPage === number })}
+                className={cn(s.item, { [s.selected]: currentPage === number })}
                 onClick={() => onPageChange(number)}
               >
                 {number}

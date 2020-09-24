@@ -1,0 +1,47 @@
+.error {
+  position: fixed;
+  left: 0;
+  top: 0.25rem;
+  border-radius: 5px;
+  background-color: #ff3232;
+  color: #fff;
+  padding: 0.3rem 0.875rem;
+  font-size: 1rem;
+  max-width: 100%;
+  word-wrap: break-word;
+  font-weight: 500;
+  display: flex;
+  padding-right: 40px;
+
+  &Message {
+    flex: 1 1 auto;
+  }
+
+  &Close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: none;
+    height: 30px;
+    width: 30px;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.75rem;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: rotateY(-18deg) rotateZ(-5deg) scale(1.1);
+    }
+
+    &:active {
+      transform: none;
+    }
+  }
+}
