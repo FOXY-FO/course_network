@@ -7,7 +7,6 @@ import dialogsReducer from "./dialogs-reducer"
 import usersReducer from "./users-reducer"
 import authReducer from "./auth-reducer"
 import appReducer from "./app-reducer"
-import errorReducer from "./error-reducer"
 
 let reducers = combineReducers({
   app: appReducer,
@@ -17,7 +16,6 @@ let reducers = combineReducers({
   usersPage: usersReducer,
   auth: authReducer,
   form: formReducer,
-  error: errorReducer,
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

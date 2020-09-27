@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 import { connect } from "react-redux"
 import { compose } from "redux"
 import { login } from "../../redux/auth-reducer"
@@ -15,5 +15,6 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, { login }),
-  withProfileRedirect
+  withProfileRedirect,
+  memo
 )(LoginContainer)

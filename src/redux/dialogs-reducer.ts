@@ -1,6 +1,18 @@
 const ADD_MESSAGE = "network/dialogs-reducer/ADD_MESSAGE"
 
-let initialState = {
+type MessageType = {
+  id: number
+  text: string
+}
+type UserType = {
+  id: number
+  name: string
+}
+// type InitialStateType = {
+//   users: UserType[]
+//   messages: MessageType[]
+// }
+const initialState = {
   users: [
     {
       id: 1,
@@ -14,7 +26,7 @@ let initialState = {
       id: 3,
       name: "Liza",
     },
-  ],
+  ] as Array<UserType>,
   messages: [
     {
       id: 1,
@@ -28,15 +40,20 @@ let initialState = {
       id: 3,
       text: "I'm fine, thank you",
     },
-  ],
+  ] as Array<MessageType>,
 }
 
-let dialogsReducer = (state = initialState, action) => {
+type InitialStateType = typeof initialState
+
+const dialogsReducer = (
+  state = initialState,
+  action: any
+): InitialStateType => {
   switch (action.type) {
     case ADD_MESSAGE:
-      if (action.text === "" || typeof action.text !== "string") return
+      if (action.text === "") return state
 
-      let newMessage = {
+      const newMessage = {
         id: state.messages[state.messages.length - 1].id + 1,
         text: action.text,
       }
@@ -50,6 +67,13 @@ let dialogsReducer = (state = initialState, action) => {
   }
 }
 
-export let addMessage = (text) => ({ type: ADD_MESSAGE, text })
+type AddMessageActionType = {
+  type: typeof ADD_MESSAGE
+  text: string
+}
+export const addMessage = (text: string): AddMessageActionType => ({
+  type: ADD_MESSAGE,
+  text,
+})
 
 export default dialogsReducer

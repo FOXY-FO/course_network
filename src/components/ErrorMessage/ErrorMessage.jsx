@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 import s from "./ErrorMessage.module.scss"
 
 const ErrorMessage = ({ message = null, onClose = () => {} }) => {
@@ -14,4 +14,4 @@ const ErrorMessage = ({ message = null, onClose = () => {} }) => {
   )
 }
 
-export default ErrorMessage
+export default memo(ErrorMessage)

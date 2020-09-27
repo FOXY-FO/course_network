@@ -1,9 +1,10 @@
-import React from "react"
+import React, { memo } from "react"
 import Settings from "./Settings"
 import withAuthRedirect from "../../hoc/withAuthRedirect"
+import { compose } from "redux"
 
 const SettingsContainer = (props) => {
   return <Settings {...props} />
 }
 
-export default withAuthRedirect(SettingsContainer)
+export default compose(withAuthRedirect, memo)(SettingsContainer)

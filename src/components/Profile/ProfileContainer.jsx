@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, memo } from "react"
 import { compose } from "redux"
 import { connect } from "react-redux"
 import { withRouter, Redirect } from "react-router-dom"
@@ -57,5 +57,6 @@ export default compose(
     uploadPhoto,
     saveProfile,
   }),
-  withRouter
+  withRouter,
+  memo
 )(ProfileContainer)

@@ -1,4 +1,5 @@
-import React from "react"
+import React, { memo } from "react"
+import { compose } from "redux"
 import { connect } from "react-redux"
 import { logout } from "../../../redux/auth-reducer"
 import Header from "./Header"
@@ -12,6 +13,7 @@ let mapStateToProps = (state) => ({
   isAuth: state.auth.isAuth,
 })
 
-export default connect(mapStateToProps, {
-  logout,
-})(HeaderContainer)
+export default compose(
+  connect(mapStateToProps, { logout }),
+  memo
+)(HeaderContainer)

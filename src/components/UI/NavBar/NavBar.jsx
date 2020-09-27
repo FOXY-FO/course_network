@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 import { NavLink } from "react-router-dom"
 
 import s from "./NavBar.module.scss"
@@ -44,4 +44,4 @@ const NavBar = () => {
   )
 }
 
-export default NavBar
+export default memo(NavBar)

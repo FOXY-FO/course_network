@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, memo } from "react"
 import { connect, Provider } from "react-redux"
 import {
   Route,
@@ -36,7 +36,7 @@ const App = ({ initialized, initializeApp }) => {
     return () => {
       window.removeEventListener("unhandledrejection", catchAllUnhandledErrors)
     }
-  }, [])
+  }, [initializeApp])
 
   if (!initialized) {
     return <Preloader />
@@ -74,7 +74,8 @@ let mapStateToProps = (state) => ({
 
 let AppContainer = compose(
   withRouter,
-  connect(mapStateToProps, { initializeApp })
+  connect(mapStateToProps, { initializeApp }),
+  memo
 )(App)
 
 let AppWithRouter = () => {

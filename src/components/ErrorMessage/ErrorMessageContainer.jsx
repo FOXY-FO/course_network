@@ -1,6 +1,7 @@
-import React from "react"
+import React, { memo } from "react"
 import { connect } from "react-redux"
-import { setErrorMessage } from "../../redux/error-reducer"
+import { compose } from "redux"
+import { setErrorMessage } from "../../redux/app-reducer"
 import ErrorMessage from "./ErrorMessage"
 
 const ErrorMessageContainer = ({ setErrorMessage, ...props }) => {
@@ -8,9 +9,10 @@ const ErrorMessageContainer = ({ setErrorMessage, ...props }) => {
 }
 
 const mapStateToProps = (state) => ({
-  message: state.error.errorMessage,
+  message: state.app.globalError,
 })
 
-export default connect(mapStateToProps, { setErrorMessage })(
-  ErrorMessageContainer
-)
+export default compose(
+  connect(mapStateToProps, { setErrorMessage }),
+  memo
+)(ErrorMessageContainer)

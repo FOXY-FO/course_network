@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 import { Field, reduxForm } from "redux-form"
 import {
   required,
@@ -79,4 +79,4 @@ let Login = ({ login, captchaURL }) => {
   )
 }
 
-export default Login
+export default memo(Login)
