@@ -8,10 +8,6 @@ type UserType = {
   id: number
   name: string
 }
-// type InitialStateType = {
-//   users: UserType[]
-//   messages: MessageType[]
-// }
 const initialState = {
   users: [
     {
@@ -47,7 +43,7 @@ type InitialStateType = typeof initialState
 
 const dialogsReducer = (
   state = initialState,
-  action: any
+  action: ActionsTypes
 ): InitialStateType => {
   switch (action.type) {
     case ADD_MESSAGE:
@@ -66,6 +62,8 @@ const dialogsReducer = (
       return state
   }
 }
+
+type ActionsTypes = AddMessageActionType
 
 type AddMessageActionType = {
   type: typeof ADD_MESSAGE

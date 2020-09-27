@@ -1,4 +1,5 @@
 import { stopSubmit } from "redux-form"
+import { ThunkAction } from "redux-thunk"
 import { profileAPI } from "../api/api"
 import {
   PhotosType,
@@ -34,7 +35,7 @@ type InitialStateType = typeof initialState
 
 const profileReducer = (
   state = initialState,
-  action: any
+  action: ActionsTypes
 ): InitialStateType => {
   switch (action.type) {
     case ADD_POST:
@@ -73,11 +74,16 @@ const profileReducer = (
   }
 }
 
+type ActionsTypes =
+  | AddPostActionType
+  | SetProfileActionType
+  | SetStatusActionType
+  | UploadPhotoSuccessActionType
+
 type AddPostActionType = {
   type: typeof ADD_POST
   newPostText: string
 }
-
 export const addPost = (newPostText: string): AddPostActionType => ({
   type: ADD_POST,
   newPostText,
@@ -109,28 +115,36 @@ export const uploadPhotoSuccess = (
   photos,
 })
 
-export const getProfileThunk = (userId: number) => async (dispatch: any) => {
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+
+export const getProfileThunk = (userId: number): ThunkType => async (
+  dispatch
+) => {
   const res = await profileAPI.getProfile(userId)
   dispatch(setProfile(res))
 }
-export const getUserStatus = (userId: number) => async (dispatch: any) => {
+export const getUserStatus = (userId: number): ThunkType => async (
+  dispatch
+) => {
   const status = await profileAPI.getUserStatus(userId)
   dispatch(setStatus(status))
 }
-export const updateUserStatus = (status: string) => async (dispatch: any) => {
+export const updateUserStatus = (status: string): ThunkType => async (
+  dispatch
+) => {
   const data = await profileAPI.updateUserStatus(status)
   if (data.resultCode === 0) {
     dispatch(setStatus(status))
   }
 }
-export const uploadPhoto = (image: string) => async (dispatch: any) => {
+export const uploadPhoto = (image: string): ThunkType => async (dispatch) => {
   const res = await profileAPI.uploadPhoto(image)
   if (res.data.resultCode === 0) {
     dispatch(uploadPhotoSuccess(res.data.data.photos))
   }
 }
 
-function takePropsFromString(str: string): string[] {
+const _takePropsFromString = (str: string): string[] => {
   const strArray = str.split("")
   const leftBound = strArray.indexOf("(")
   const rightBound = strArray.indexOf(")")
@@ -147,7 +161,7 @@ function takePropsFromString(str: string): string[] {
 }
 
 //********SHITCODE STARTS******************SHIIIIIIIIIIIT COOOOOOOODEEEE!!!!!!!!!! MUST EDIT THIS SHIT LATER!!!!!!!!!!!!!!!!!
-function composeObject(arr: string[], value: string) {
+const _composeObject = (arr: string[], value: string): Object => {
   const result = arr.reduce((acc, item, index, array) => {
     if (array.length === 1) {
       return { [item]: value }
@@ -179,7 +193,7 @@ export const saveProfile = (info: TProfileEditInfo) => async (
     dispatch(
       stopSubmit(
         "edit-profile",
-        composeObject(takePropsFromString(errorMessage), errorMessage)
+        _composeObject(_takePropsFromString(errorMessage), errorMessage)
       )
     )
 

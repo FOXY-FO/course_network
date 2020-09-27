@@ -1,4 +1,6 @@
+import { ThunkAction } from "redux-thunk"
 import { getUserAuthData } from "./auth-reducer"
+import { AppStateType } from "./redux-store"
 
 const INITIALIZING_SUCCESS = "network/app-reducer/INITIALIZING_SUCCESS"
 const SET_GLOBAL_ERROR = "network/app-reducer/SET_GLOBAL_ERROR"
@@ -10,7 +12,10 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-const appReducer = (state = initialState, action: any): InitialStateType => {
+const appReducer = (
+  state = initialState,
+  action: ActionTypes
+): InitialStateType => {
   switch (action.type) {
     case INITIALIZING_SUCCESS:
       return {
@@ -27,18 +32,19 @@ const appReducer = (state = initialState, action: any): InitialStateType => {
   }
 }
 
+type ActionTypes = InitializingSuccessActionType | SetErrorMessageActionType
+
 type InitializingSuccessActionType = {
   type: typeof INITIALIZING_SUCCESS // 'INITIALIZING_SUCCESS'
 }
 export const initializingSuccess = (): InitializingSuccessActionType => ({
   type: INITIALIZING_SUCCESS,
 })
-type SetErrorMessageActionPayloadType = {
-  globalError: string | null
-}
 export type SetErrorMessageActionType = {
   type: typeof SET_GLOBAL_ERROR
-  payload: SetErrorMessageActionPayloadType
+  payload: {
+    globalError: string | null
+  }
 }
 export const setErrorMessage = (
   globalError: string | null
@@ -47,12 +53,19 @@ export const setErrorMessage = (
   payload: { globalError },
 })
 
-export let initializeApp = () => async (dispatch: any) => {
-  let promise = dispatch(getUserAuthData())
+export const initializeApp = (): ThunkAction<
+  Promise<void>,
+  AppStateType,
+  unknown,
+  ActionTypes
+> => async (dispatch) => {
+  const promise = dispatch(getUserAuthData())
   await Promise.all([promise])
   dispatch(initializingSuccess())
 }
-export const displayError = (error: string | null) => (dispatch: any) => {
+export const displayError = (
+  error: string | null
+): ThunkAction<void, AppStateType, unknown, ActionTypes> => (dispatch) => {
   dispatch(setErrorMessage(error))
   setTimeout(() => {
     dispatch(setErrorMessage(null))
