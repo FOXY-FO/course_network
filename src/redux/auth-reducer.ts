@@ -1,4 +1,9 @@
-import { authAPI, securityAPI } from "../api/api"
+import {
+  authAPI,
+  ResultCodesEnum,
+  ResultCodeForCaptcha,
+  securityAPI,
+} from "../api/api"
 import { stopSubmit } from "redux-form"
 import { AppStateType } from "../redux/redux-store"
 import { ThunkAction } from "redux-thunk"
@@ -86,7 +91,7 @@ export const getUserAuthData = () => async (dispatch: DispatchType) => {
     dispatch(setUserData(id, email, login, true))
   }
 
-  return res
+  return res.data
 }
 
 export const login = (
@@ -97,11 +102,11 @@ export const login = (
 ): ThunkType => async (dispatch, getState) => {
   const data = await authAPI.login(email, password, rememberMe, captcha)
 
-  if (data.resultCode === 0) {
+  if (data.resultCode === ResultCodesEnum.Success) {
     dispatch(getUserAuthData())
     if (getState().auth.captchaURL) dispatch(setCaptchaURL(null))
   } else {
-    if (data.resultCode === 10) {
+    if (data.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {
       dispatch(getCaptchaURL())
     }
 
@@ -115,7 +120,7 @@ export const login = (
 export const logout = (): ThunkType => async (dispatch) => {
   const res = await authAPI.logout()
 
-  if (res.resultCode === 0) {
+  if (res.data.resultCode === ResultCodesEnum.Success) {
     dispatch(setUserData(null, null, null, false))
   }
 }

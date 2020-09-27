@@ -121,19 +121,19 @@ export const getProfileThunk = (userId: number): ThunkType => async (
   dispatch
 ) => {
   const res = await profileAPI.getProfile(userId)
-  dispatch(setProfile(res))
+  dispatch(setProfile(res.data))
 }
 export const getUserStatus = (userId: number): ThunkType => async (
   dispatch
 ) => {
-  const status = await profileAPI.getUserStatus(userId)
-  dispatch(setStatus(status))
+  const res = await profileAPI.getUserStatus(userId)
+  dispatch(setStatus(res.data))
 }
 export const updateUserStatus = (status: string): ThunkType => async (
   dispatch
 ) => {
-  const data = await profileAPI.updateUserStatus(status)
-  if (data.resultCode === 0) {
+  const res = await profileAPI.updateUserStatus(status)
+  if (res.data.resultCode === 0) {
     dispatch(setStatus(status))
   }
 }

@@ -168,8 +168,8 @@ export const getUsersThunkCreator = (
 
   const response = await usersAPI.getUsers(currentPage, pageSize)
 
-  dispatch(setUsers(response.items))
-  dispatch(setTotalUsersCount(response.totalCount))
+  dispatch(setUsers(response.data.items))
+  dispatch(setTotalUsersCount(response.data.totalCount))
   dispatch(setCurrentPage(currentPage))
 
   dispatch(toggleFetching(false))
@@ -184,7 +184,7 @@ const _followUnfollowFlow = async (
   dispatch(toggleFollowingInProgress(userId))
 
   const res = await usersAPI[apiMethod](userId)
-  if (res.resultCode === 0) {
+  if (res.data.resultCode === 0) {
     dispatch(actionCreator(userId))
   }
 
