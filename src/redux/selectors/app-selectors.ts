@@ -1,6 +1,7 @@
 import { createSelector } from "reselect"
+import { AppStateType } from "../redux-store"
 
-export const getApp = (state) => {
+export const getApp = (state: AppStateType) => {
   return state.app
 }
 

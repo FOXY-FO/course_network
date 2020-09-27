@@ -1,9 +1,8 @@
-import React, { memo } from "react"
+import React, { memo, FC } from "react"
 import { NavLink } from "react-router-dom"
-
 import s from "./NavBar.module.scss"
 
-const NavBar = () => {
+const NavBar: FC = () => {
   return (
     <aside className={s.navBar}>
       <nav>

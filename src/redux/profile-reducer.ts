@@ -1,6 +1,12 @@
 import { stopSubmit } from "redux-form"
 import { profileAPI } from "../api/api"
-import { PhotosType, PostType, ProfileType } from "../types/types"
+import {
+  PhotosType,
+  PostType,
+  ProfileType,
+  TProfileEditInfo,
+} from "../types/types"
+import { AppStateType } from "./redux-store"
 
 const ADD_POST = "network/profile-reducer/ADD_POST"
 const SET_USER = "network/profile-reducer/SET_USER"
@@ -160,13 +166,13 @@ function composeObject(arr: string[], value: string) {
 }
 //**********SHITCODE ENDS*************SHIIIIIIIIIIIT COOOOOOOODEEEE!!!!!!!!!! MUST EDIT THIS SHIT LATER!!!!!!!!!!!!!!!!!
 
-export const saveProfile = (info: any) => async (
+export const saveProfile = (info: TProfileEditInfo) => async (
   dispatch: any,
-  getState: any
+  getState: () => AppStateType
 ) => {
   const res = await profileAPI.updateProfileInfo(info)
   if (res.data.resultCode === 0) {
-    dispatch(getProfileThunk(getState().auth.userId))
+    dispatch(getProfileThunk(getState().auth.userId!))
   } else {
     const errorMessage = res.data.messages[0]
 

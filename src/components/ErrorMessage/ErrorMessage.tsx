@@ -1,7 +1,15 @@
-import React, { memo } from "react"
+import React, { FC, memo } from "react"
 import s from "./ErrorMessage.module.scss"
 
-const ErrorMessage = ({ message = null, onClose = () => {} }) => {
+type PropsType = {
+  message: string | null
+  onClose: () => void
+}
+
+const ErrorMessage: FC<PropsType> = ({
+  message = null,
+  onClose = () => {},
+}) => {
   if (!message) return null
 
   return (

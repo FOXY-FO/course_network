@@ -30,6 +30,8 @@ export type ProfileType = {
   photos: PhotosType
 }
 
+export type TProfileEditInfo = Omit<ProfileType, "userId" | "photos">
+
 export type UserType = {
   name: string
   id: number

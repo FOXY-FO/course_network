@@ -1,5 +1,6 @@
 import { authAPI, securityAPI } from "../api/api"
 import { stopSubmit } from "redux-form"
+import { AppStateType } from "../redux/redux-store"
 
 const SET_USER_DATA = "network/auth-reducer/SET_USER_DATA"
 const SET_CAPTCHA_URL = "network/auth-reducer/SET_CAPTCHA_URL"
@@ -88,7 +89,7 @@ export const login = (
   password: string,
   rememberMe: boolean,
   captcha: string
-) => async (dispatch: any, getState: any) => {
+) => async (dispatch: any, getState: () => AppStateType) => {
   const data = await authAPI.login(email, password, rememberMe, captcha)
 
   if (data.resultCode === 0) {

@@ -1,8 +1,8 @@
-import React from "react"
+import React, { FC } from "react"
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import MyPostsContainer from "./MyPosts/MyPostsContainer"
 
-const Profile = (props) => {
+const Profile: FC<any> = (props) => {
   return (
     <>
       <ProfileInfo {...props} />

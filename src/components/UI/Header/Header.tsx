@@ -1,8 +1,14 @@
-import React from "react"
+import React, { FC } from "react"
 import styles from "./Header.module.scss"
 import { Link } from "react-router-dom"
 
-let Header = ({ login, isAuth, logout }) => {
+type PropsType = {
+  login: string | null
+  isAuth: boolean
+  logout: () => void
+}
+
+const Header: FC<PropsType> = ({ login, isAuth, logout }) => {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>

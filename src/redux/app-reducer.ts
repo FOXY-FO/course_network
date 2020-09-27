@@ -30,13 +30,13 @@ const appReducer = (state = initialState, action: any): InitialStateType => {
 type InitializingSuccessActionType = {
   type: typeof INITIALIZING_SUCCESS // 'INITIALIZING_SUCCESS'
 }
-export let initializingSuccess = (): InitializingSuccessActionType => ({
+export const initializingSuccess = (): InitializingSuccessActionType => ({
   type: INITIALIZING_SUCCESS,
 })
 type SetErrorMessageActionPayloadType = {
   globalError: string | null
 }
-type SetErrorMessageActionType = {
+export type SetErrorMessageActionType = {
   type: typeof SET_GLOBAL_ERROR
   payload: SetErrorMessageActionPayloadType
 }
