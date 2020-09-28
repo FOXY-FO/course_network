@@ -8,12 +8,7 @@ import {
   TProfileEditInfo,
 } from "../types/types"
 import { displayError } from "./app-reducer"
-import { AppStateType } from "./redux-store"
-
-const ADD_POST = "network/profile-reducer/ADD_POST"
-const SET_USER = "network/profile-reducer/SET_USER"
-const SET_STATUS = "network/profile-reducer/SET_STATUS"
-const UPLOAD_PHOTO_SUCCESS = "network/profile-reducer/UPLOAD_PHOTO_SUCCESS"
+import { AppStateType, InferActionsTypes } from "./redux-store"
 
 const initialState = {
   posts: [
@@ -39,7 +34,7 @@ const profileReducer = (
   action: ActionsTypes
 ): InitialStateType => {
   switch (action.type) {
-    case ADD_POST:
+    case "profile/ADD_POST":
       if (action.newPostText === "") return state
 
       const newPost: PostType = {
@@ -52,17 +47,17 @@ const profileReducer = (
         ...state,
         posts: [...state.posts, newPost],
       }
-    case SET_USER:
+    case "profile/SET_USER":
       return {
         ...state,
         profile: action.profile,
       }
-    case SET_STATUS:
+    case "profile/SET_STATUS":
       return {
         ...state,
         status: action.status,
       }
-    case UPLOAD_PHOTO_SUCCESS:
+    case "profile/UPLOAD_PHOTO_SUCCESS":
       return {
         ...state,
         profile: {
@@ -75,46 +70,30 @@ const profileReducer = (
   }
 }
 
-type ActionsTypes =
-  | AddPostActionType
-  | SetProfileActionType
-  | SetStatusActionType
-  | UploadPhotoSuccessActionType
+export const actions = {
+  addPost: (newPostText: string) =>
+    ({
+      type: "profile/ADD_POST",
+      newPostText,
+    } as const),
+  setProfile: (profile: ProfileType) =>
+    ({
+      type: "profile/SET_USER",
+      profile,
+    } as const),
+  setStatus: (status: string) =>
+    ({
+      type: "profile/SET_STATUS",
+      status,
+    } as const),
+  uploadPhotoSuccess: (photos: PhotosType) =>
+    ({
+      type: "profile/UPLOAD_PHOTO_SUCCESS",
+      photos,
+    } as const),
+}
 
-type AddPostActionType = {
-  type: typeof ADD_POST
-  newPostText: string
-}
-export const addPost = (newPostText: string): AddPostActionType => ({
-  type: ADD_POST,
-  newPostText,
-})
-type SetProfileActionType = {
-  type: typeof SET_USER
-  profile: ProfileType
-}
-export const setProfile = (profile: ProfileType): SetProfileActionType => ({
-  type: SET_USER,
-  profile,
-})
-type SetStatusActionType = {
-  type: typeof SET_STATUS
-  status: string
-}
-export const setStatus = (status: string): SetStatusActionType => ({
-  type: SET_STATUS,
-  status,
-})
-type UploadPhotoSuccessActionType = {
-  type: typeof UPLOAD_PHOTO_SUCCESS
-  photos: PhotosType
-}
-export const uploadPhotoSuccess = (
-  photos: PhotosType
-): UploadPhotoSuccessActionType => ({
-  type: UPLOAD_PHOTO_SUCCESS,
-  photos,
-})
+type ActionsTypes = InferActionsTypes<typeof actions>
 
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
@@ -122,14 +101,14 @@ export const getProfileThunk = (userId: number): ThunkType => async (
   dispatch
 ) => {
   const res = await profileAPI.getProfile(userId)
-  dispatch(setProfile(res))
+  dispatch(actions.setProfile(res))
 }
 export const getUserStatus = (userId: number): ThunkType => async (
   dispatch
 ) => {
   const res = await profileAPI.getUserStatus(userId)
   if (typeof res === "string") {
-    dispatch(setStatus(res))
+    dispatch(actions.setStatus(res))
   } else if (typeof res === typeof {}) {
     return Promise.reject(res.message)
   }
@@ -139,7 +118,7 @@ export const updateUserStatus = (status: string): ThunkType => async (
 ) => {
   const data = await profileAPI.updateUserStatus(status)
   if (data.resultCode === ResultCodesEnum.Success) {
-    dispatch(setStatus(status))
+    dispatch(actions.setStatus(status))
   } else if (data.resultCode === ResultCodesEnum.Error) {
     dispatch(displayError(data.messages[0]))
   }
@@ -147,7 +126,7 @@ export const updateUserStatus = (status: string): ThunkType => async (
 export const uploadPhoto = (image: string): ThunkType => async (dispatch) => {
   const data = await profileAPI.uploadPhoto(image)
   if (data.resultCode === ResultCodesEnum.Success) {
-    dispatch(uploadPhotoSuccess(data.data.photos))
+    dispatch(actions.uploadPhotoSuccess(data.data.photos))
   } else if (data.resultCode === ResultCodesEnum.Error) {
     dispatch(displayError(data.messages[0]))
   }
@@ -199,12 +178,12 @@ export const saveProfile = (info: TProfileEditInfo) => async (
   } else {
     const errorMessage = data.messages[0]
 
-    dispatch(
-      stopSubmit(
-        "edit-profile",
-        _composeObject(_takePropsFromString(errorMessage), errorMessage)
-      )
+    const action = stopSubmit(
+      "edit-profile",
+      _composeObject(_takePropsFromString(errorMessage), errorMessage)
     )
+
+    dispatch(action)
 
     return Promise.reject(errorMessage)
   }

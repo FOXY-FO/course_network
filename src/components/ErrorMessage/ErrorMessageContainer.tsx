@@ -2,7 +2,7 @@ import React, { memo, FC } from "react"
 import { connect } from "react-redux"
 import { compose } from "redux"
 import { AppStateType } from "../../redux/redux-store"
-import { setErrorMessage } from "../../redux/app-reducer"
+import { actions } from "../../redux/app-reducer"
 import ErrorMessage from "./ErrorMessage"
 
 type MapStatePropsType = {
@@ -31,7 +31,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
 export default compose(
   connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
     mapStateToProps,
-    { setErrorMessage }
+    { setErrorMessage: actions.setErrorMessage }
   ),
   memo
 )(ErrorMessageContainer)

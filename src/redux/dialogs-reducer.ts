@@ -1,4 +1,4 @@
-const ADD_MESSAGE = "network/dialogs-reducer/ADD_MESSAGE"
+import { InferActionsTypes } from "./redux-store"
 
 type MessageType = {
   id: number
@@ -46,10 +46,10 @@ const dialogsReducer = (
   action: ActionsTypes
 ): InitialStateType => {
   switch (action.type) {
-    case ADD_MESSAGE:
+    case "dialogs/ADD_MESSAGE":
       if (action.text === "") return state
 
-      const newMessage = {
+      const newMessage: MessageType = {
         id: state.messages[state.messages.length - 1].id + 1,
         text: action.text,
       }
@@ -63,15 +63,14 @@ const dialogsReducer = (
   }
 }
 
-type ActionsTypes = AddMessageActionType
-
-type AddMessageActionType = {
-  type: typeof ADD_MESSAGE
-  text: string
+export const actions = {
+  addMessage: (text: string) =>
+    ({
+      type: "dialogs/ADD_MESSAGE",
+      text,
+    } as const),
 }
-export const addMessage = (text: string): AddMessageActionType => ({
-  type: ADD_MESSAGE,
-  text,
-})
+
+type ActionsTypes = InferActionsTypes<typeof actions>
 
 export default dialogsReducer

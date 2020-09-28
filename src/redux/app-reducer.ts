@@ -1,9 +1,6 @@
 import { ThunkAction } from "redux-thunk"
 import { getUserAuthData } from "./auth-reducer"
-import { AppStateType } from "./redux-store"
-
-const INITIALIZING_SUCCESS = "network/app-reducer/INITIALIZING_SUCCESS"
-const SET_GLOBAL_ERROR = "network/app-reducer/SET_GLOBAL_ERROR"
+import { AppStateType, InferActionsTypes } from "./redux-store"
 
 const initialState = {
   initialized: false,
@@ -14,15 +11,15 @@ type InitialStateType = typeof initialState
 
 const appReducer = (
   state = initialState,
-  action: ActionTypes
+  action: ActionsTypes
 ): InitialStateType => {
   switch (action.type) {
-    case INITIALIZING_SUCCESS:
+    case "app/INITIALIZING_SUCCESS":
       return {
         ...state,
         initialized: true,
       }
-    case SET_GLOBAL_ERROR:
+    case "app/SET_GLOBAL_ERROR":
       return {
         ...state,
         ...action.payload,
@@ -32,43 +29,36 @@ const appReducer = (
   }
 }
 
-type ActionTypes = InitializingSuccessActionType | SetErrorMessageActionType
+export const actions = {
+  initializingSuccess: () =>
+    ({
+      type: "app/INITIALIZING_SUCCESS",
+    } as const),
+  setErrorMessage: (globalError: string | null) =>
+    ({
+      type: "app/SET_GLOBAL_ERROR",
+      payload: { globalError },
+    } as const),
+}
 
-type InitializingSuccessActionType = {
-  type: typeof INITIALIZING_SUCCESS // 'INITIALIZING_SUCCESS'
-}
-export const initializingSuccess = (): InitializingSuccessActionType => ({
-  type: INITIALIZING_SUCCESS,
-})
-export type SetErrorMessageActionType = {
-  type: typeof SET_GLOBAL_ERROR
-  payload: {
-    globalError: string | null
-  }
-}
-export const setErrorMessage = (
-  globalError: string | null
-): SetErrorMessageActionType => ({
-  type: SET_GLOBAL_ERROR,
-  payload: { globalError },
-})
+type ActionsTypes = InferActionsTypes<typeof actions>
 
 export const initializeApp = (): ThunkAction<
   Promise<void>,
   AppStateType,
   unknown,
-  ActionTypes
+  ActionsTypes
 > => async (dispatch) => {
   const promise = dispatch(getUserAuthData())
   await Promise.all([promise])
-  dispatch(initializingSuccess())
+  dispatch(actions.initializingSuccess())
 }
 export const displayError = (
   error: string | null
-): ThunkAction<void, AppStateType, unknown, ActionTypes> => (dispatch) => {
-  dispatch(setErrorMessage(error))
+): ThunkAction<void, AppStateType, unknown, ActionsTypes> => (dispatch) => {
+  dispatch(actions.setErrorMessage(error))
   setTimeout(() => {
-    dispatch(setErrorMessage(null))
+    dispatch(actions.setErrorMessage(null))
   }, 10000)
 }
 
