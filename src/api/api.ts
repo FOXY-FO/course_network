@@ -1,5 +1,10 @@
 import axios from "axios"
-import { TProfileEditInfo } from "../types/types"
+import {
+  PhotosType,
+  ProfileType,
+  TProfileEditInfo,
+  UserType,
+} from "../types/types"
 
 const instance = axios.create({
   baseURL: "https://social-network.samuraijs.com/api/1.0/",
@@ -9,50 +14,88 @@ const instance = axios.create({
   },
 })
 
+type GetUsersType = {
+  items: UserType[] | null
+  totalCount: number
+  error: string | null
+}
+
+type FollowUnfollowType = {
+  data: {}
+  fieldsErrors: string[]
+  messages: string[]
+  resultCode: ResultCodesEnum
+}
+
 export const usersAPI = {
   getUsers(currentPage = 1, pageSize = 10) {
-    return instance.get(`/users?page=${currentPage}&count=${pageSize}`)
+    return instance
+      .get<GetUsersType>(`/users?page=${currentPage}&count=${pageSize}`)
+      .then((res) => res.data)
   },
   follow(userId: number) {
-    return instance.post(`/follow/${userId}`)
+    return instance.post<FollowUnfollowType>(`/follow/${userId}`)
   },
 
   unfollow(userId: number) {
-    return instance.delete(`/follow/${userId}`)
+    return instance.delete<FollowUnfollowType>(`/follow/${userId}`)
   },
+}
+
+type GetUserStatusType = { message: string } | string
+
+type UpdateUserStatusType = {
+  data: {}
+  messages: string[]
+  fieldsErrors: string[]
+  resultCode: ResultCodesEnum
+}
+
+type UploadPhotoType = {
+  data: { photos: PhotosType }
+  resultCode: ResultCodesEnum
+  messages: string[]
+  fieldsErrors: string[]
+}
+
+type UpdateProfileInfoType = {
+  data: {}
+  fieldsErrors: string[]
+  messages: string[]
+  resultCode: ResultCodesEnum
 }
 
 export const profileAPI = {
   getProfile(id: number) {
-    return instance.get(`/profile/${id}`)
+    return instance.get<ProfileType>(`/profile/${id}`).then((res) => res.data)
   },
   getUserStatus(userId: number) {
-    return instance.get(`/profile/status/${userId}`)
+    return instance
+      .get<GetUserStatusType>(`/profile/status/${userId}`)
+      .then((res) => res.data)
   },
   updateUserStatus(status: string) {
-    return instance.put("/profile/status", { status })
+    return instance
+      .put<UpdateUserStatusType>("/profile/status", { status })
+      .then((res) => res.data)
   },
   uploadPhoto(image: any) {
     let formData = new FormData()
     formData.append("image", image)
-    return instance.put("/profile/photo", formData, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    })
+    return instance
+      .put<UploadPhotoType>("/profile/photo", formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => res.data)
   },
   updateProfileInfo(info: TProfileEditInfo) {
-    return instance.put("/profile", info)
+    return instance
+      .put<UpdateProfileInfoType>("/profile", info)
+      .then((res) => res.data)
   },
 }
-
-// properties:
-// resultCode (integer) - 0 - OK, 1 - request is invalid
-// messages (string[]) - is empty if resultCode is 0, contains error messages if resultCode is different from 0
-// data (object) - is empty if resultCode is not equal 0,  if resultCode is 0 then object contains
-// * id - logged user id
-// * email - logged user email
-// * login - user login
 
 export enum ResultCodesEnum {
   Success = 0,
@@ -107,8 +150,12 @@ export const authAPI = {
   },
 }
 
+type GetCaptchaURLType = {
+  url: string
+}
+
 export const securityAPI = {
   getCaptchaURL() {
-    return instance.get("/security/get-captcha-url")
+    return instance.get<GetCaptchaURLType>("/security/get-captcha-url")
   },
 }

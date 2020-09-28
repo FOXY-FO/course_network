@@ -1,12 +1,13 @@
 import { stopSubmit } from "redux-form"
 import { ThunkAction } from "redux-thunk"
-import { profileAPI } from "../api/api"
+import { profileAPI, ResultCodesEnum } from "../api/api"
 import {
   PhotosType,
   PostType,
   ProfileType,
   TProfileEditInfo,
 } from "../types/types"
+import { displayError } from "./app-reducer"
 import { AppStateType } from "./redux-store"
 
 const ADD_POST = "network/profile-reducer/ADD_POST"
@@ -121,26 +122,34 @@ export const getProfileThunk = (userId: number): ThunkType => async (
   dispatch
 ) => {
   const res = await profileAPI.getProfile(userId)
-  dispatch(setProfile(res.data))
+  dispatch(setProfile(res))
 }
 export const getUserStatus = (userId: number): ThunkType => async (
   dispatch
 ) => {
   const res = await profileAPI.getUserStatus(userId)
-  dispatch(setStatus(res.data))
+  if (typeof res === "string") {
+    dispatch(setStatus(res))
+  } else if (typeof res === typeof {}) {
+    return Promise.reject(res.message)
+  }
 }
 export const updateUserStatus = (status: string): ThunkType => async (
   dispatch
 ) => {
-  const res = await profileAPI.updateUserStatus(status)
-  if (res.data.resultCode === 0) {
+  const data = await profileAPI.updateUserStatus(status)
+  if (data.resultCode === ResultCodesEnum.Success) {
     dispatch(setStatus(status))
+  } else if (data.resultCode === ResultCodesEnum.Error) {
+    dispatch(displayError(data.messages[0]))
   }
 }
 export const uploadPhoto = (image: string): ThunkType => async (dispatch) => {
-  const res = await profileAPI.uploadPhoto(image)
-  if (res.data.resultCode === 0) {
-    dispatch(uploadPhotoSuccess(res.data.data.photos))
+  const data = await profileAPI.uploadPhoto(image)
+  if (data.resultCode === ResultCodesEnum.Success) {
+    dispatch(uploadPhotoSuccess(data.data.photos))
+  } else if (data.resultCode === ResultCodesEnum.Error) {
+    dispatch(displayError(data.messages[0]))
   }
 }
 
@@ -184,11 +193,11 @@ export const saveProfile = (info: TProfileEditInfo) => async (
   dispatch: any,
   getState: () => AppStateType
 ) => {
-  const res = await profileAPI.updateProfileInfo(info)
-  if (res.data.resultCode === 0) {
+  const data = await profileAPI.updateProfileInfo(info)
+  if (data.resultCode === ResultCodesEnum.Success) {
     dispatch(getProfileThunk(getState().auth.userId!))
   } else {
-    const errorMessage = res.data.messages[0]
+    const errorMessage = data.messages[0]
 
     dispatch(
       stopSubmit(
