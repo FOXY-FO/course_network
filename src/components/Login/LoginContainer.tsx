@@ -19,9 +19,7 @@ type TMapDispatchProps = {
   ) => void
 }
 
-type TOwnProps = {}
-
-type TProps = TMapStateProps & TMapDispatchProps & TOwnProps
+export type TProps = TMapStateProps & TMapDispatchProps
 
 const LoginContainer: FC<TProps> = (props) => {
   return <Login {...props} />
@@ -32,10 +30,7 @@ const mapStateToProps = (state: AppStateType): TMapStateProps => ({
 })
 
 export default compose(
-  connect<TMapStateProps, TMapDispatchProps, TOwnProps, AppStateType>(
-    mapStateToProps,
-    { login }
-  ),
+  connect(mapStateToProps, { login }),
   withProfileRedirect,
   memo
 )(LoginContainer)
