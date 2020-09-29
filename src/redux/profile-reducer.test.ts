@@ -1,6 +1,7 @@
-import profileReducer, { addPost } from "./profile-reducer"
+import { AppStateType } from "./redux-store"
+import profileReducer, { actions, InitialStateType } from "./profile-reducer"
 
-let state = {
+let state: InitialStateType = {
   posts: [
     {
       id: 1,
@@ -13,11 +14,13 @@ let state = {
       likesCount: 1323,
     },
   ],
+  profile: null,
+  status: "",
 }
 
 it("posts' length should be incremented", () => {
   // 1. start data
-  let action = addPost("new post managed to be added")
+  let action = actions.addPost("new post managed to be added")
 
   // 2. action
   let newState = profileReducer(state, action)
@@ -27,7 +30,7 @@ it("posts' length should be incremented", () => {
 })
 
 it("likes count should be equal to 0", () => {
-  let action = addPost("test")
+  let action = actions.addPost("test")
 
   let newState = profileReducer(state, action)
 

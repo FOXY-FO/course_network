@@ -8,6 +8,7 @@ import {
   updateUserStatus,
   uploadPhoto,
   saveProfile,
+  actions,
 } from "../../redux/profile-reducer"
 import { getProfile, getStatus } from "../../redux/selectors/profile-selectors"
 import { getIsAuth, getUserId } from "../../redux/selectors/auth-selectors"
@@ -20,17 +21,17 @@ type TMapStateProps = {
   status: string
   currentUserId: number | null
   isAuth: boolean
+  isProfileInfoEditModeOn: boolean
 }
 
 type TMapDispatchProps = {
   getProfile: (userId: number) => void
   getUserStatus: (userId: number) => void
   updateUserStatus: (status: string) => void
-  uploadPhoto: (image: string) => void
+  uploadPhoto: (image: File) => void
   saveProfile: (info: TProfileEditInfo) => void
+  setProfileInfoEditMode: (value: boolean) => void
 }
-
-type TOwnProps = {}
 
 type TMatchParams = {
   userId: string
@@ -38,7 +39,6 @@ type TMatchParams = {
 
 type TProps = TMapStateProps &
   TMapDispatchProps &
-  TOwnProps &
   RouteComponentProps<TMatchParams>
 
 const ProfileContainer: FC<TProps> = ({
@@ -76,10 +76,11 @@ const mapStateToProps = (state: AppStateType): TMapStateProps => ({
   status: getStatus(state),
   currentUserId: getUserId(state),
   isAuth: getIsAuth(state),
+  isProfileInfoEditModeOn: state.profilePage.isProfileInfoEditModeOn,
 })
 
 export default compose(
-  connect<TMapStateProps, TMapDispatchProps, TOwnProps, AppStateType>(
+  connect<TMapStateProps, TMapDispatchProps, {}, AppStateType>(
     mapStateToProps,
     {
       getProfile: getProfileThunk,
@@ -87,6 +88,7 @@ export default compose(
       updateUserStatus,
       uploadPhoto,
       saveProfile,
+      setProfileInfoEditMode: actions.setIsProfileEditModeOn,
     }
   ),
   withRouter,

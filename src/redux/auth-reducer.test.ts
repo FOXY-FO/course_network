@@ -1,12 +1,13 @@
-import authReducer, { setUserData } from "./auth-reducer"
+import authReducer, { actions, InitialStateType } from "./auth-reducer"
 
-let state = {
+let state: InitialStateType = {
   userId: null,
   email: null,
   login: null,
   isAuth: false,
+  captchaURL: null,
 }
-let action = setUserData(25, "foxyfo1703@gmail.com", "foxy_fo", true)
+let action = actions.setUserData(25, "foxyfo1703@gmail.com", "foxy_fo", true)
 let newState = authReducer(state, action)
 
 it("id should equal to 25", () => {

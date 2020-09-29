@@ -1,5 +1,5 @@
-import React from "react"
-import { reduxForm } from "redux-form"
+import React, { FC } from "react"
+import { InjectedFormProps, reduxForm } from "redux-form"
 import s from "../../../UI/FormControls/FormControls.module.scss"
 import { createField } from "../../../UI/FormControls/FormControls"
 import {
@@ -7,6 +7,7 @@ import {
   maxLengthCreator,
   minLengthCreator,
 } from "../../../../utils/validators"
+import { ProfileType, TProfileEditInfo } from "../../../../types/types"
 import Input from "../../../UI/FormControls/Input/Input"
 import Textarea from "../../../UI/FormControls/Textarea/Textarea"
 
@@ -15,7 +16,13 @@ const maxLength10000 = maxLengthCreator(10000)
 const maxLength30000 = maxLengthCreator(30000)
 const minLength1 = minLengthCreator(1)
 
-let ProfileDataForm = ({ handleSubmit, profile, error }) => {
+type OwnProps = {
+  profile: ProfileType
+}
+
+const ProfileDataForm: FC<
+  InjectedFormProps<TProfileEditInfo, OwnProps> & OwnProps
+> = ({ handleSubmit, profile, error }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -74,6 +81,6 @@ let ProfileDataForm = ({ handleSubmit, profile, error }) => {
   )
 }
 
-export default reduxForm({
+export default reduxForm<TProfileEditInfo, OwnProps>({
   form: "edit-profile",
 })(ProfileDataForm)

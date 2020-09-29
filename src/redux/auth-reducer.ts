@@ -1,13 +1,8 @@
-import {
-  authAPI,
-  ResultCodesEnum,
-  ResultCodeForCaptcha,
-  securityAPI,
-} from "../api/api"
-import { stopSubmit } from "redux-form"
-import { AppStateType, InferActionsTypes } from "../redux/redux-store"
-import { ThunkAction } from "redux-thunk"
-import { Dispatch } from "redux"
+import { FormAction, stopSubmit } from "redux-form"
+import { ResultCodesEnum, ResultCodeForCaptcha } from "../api/api"
+import { securityAPI } from "../api/security-api"
+import { authAPI, GetCurrentUserProfileResponseType } from "../api/auth-api"
+import { InferActionsTypes, BaseThunkType } from "../redux/redux-store"
 
 const initialState = {
   userId: null as number | null,
@@ -16,8 +11,6 @@ const initialState = {
   isAuth: false,
   captchaURL: null as string | null,
 }
-
-type InitialStateType = typeof initialState
 
 const authReducer = (
   state = initialState,
@@ -60,14 +53,10 @@ export const actions = {
     } as const),
 }
 
-type ActionsTypes =
-  | InferActionsTypes<typeof actions>
-  | ReturnType<typeof stopSubmit>
-
-type DispatchType = Dispatch<ActionsTypes>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
-
-export const getUserAuthData = () => async (dispatch: DispatchType) => {
+export const getUserAuthData = (): BaseThunkType<
+  ActionsTypes,
+  Promise<GetCurrentUserProfileResponseType>
+> => async (dispatch) => {
   const res = await authAPI.getCurrentUserProfile()
 
   if (res.resultCode === 0) {
@@ -116,3 +105,7 @@ export const getCaptchaURL = (): ThunkType => async (dispatch) => {
 }
 
 export default authReducer
+
+export type InitialStateType = typeof initialState
+type ActionsTypes = InferActionsTypes<typeof actions>
+type ThunkType = BaseThunkType<ActionsTypes | FormAction>

@@ -1,12 +1,26 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, FC, ReactNode } from "react"
 import s from "./ProfileStatus.module.scss"
 
-const ProfileStatus = ({ getUserStatus, currentUserId, ...props }) => {
+type Props = {
+  currentUserId: number | null
+  status: string
+  getUserStatus: (userId: number) => void
+  updateUserStatus: (status: string) => void
+  children?: React.ReactNode
+}
+
+const ProfileStatus: FC<Props> = ({
+  getUserStatus,
+  currentUserId,
+  ...props
+}) => {
   const [editMode, setEditMode] = useState(false)
   const [status, setStatus] = useState(props.status)
 
   useEffect(() => {
-    getUserStatus(currentUserId)
+    if (currentUserId !== null) {
+      getUserStatus(currentUserId)
+    }
   }, [currentUserId, getUserStatus])
 
   useEffect(() => {
@@ -22,7 +36,7 @@ const ProfileStatus = ({ getUserStatus, currentUserId, ...props }) => {
     props.updateUserStatus(status)
   }
 
-  const onStatusChange = (status) => {
+  const onStatusChange = (status: string) => {
     setStatus(status)
   }
 

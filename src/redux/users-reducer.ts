@@ -1,9 +1,8 @@
-import { Dispatch } from "redux"
-import { ThunkAction } from "redux-thunk"
-import { ResultCodesEnum, usersAPI } from "../api/api"
+import { ResultCodesEnum } from "../api/api"
+import { usersAPI } from "../api/users-api"
 import { displayError } from "./app-reducer"
 import { UserType } from "../types/types"
-import { AppStateType, InferActionsTypes } from "./redux-store"
+import { BaseThunkType, InferActionsTypes } from "./redux-store"
 
 const initialState = {
   users: [] as UserType[],
@@ -13,8 +12,6 @@ const initialState = {
   isFetching: false,
   followingInProgress: [] as number[], // array of users' ids
 }
-
-type InitialStateType = typeof initialState
 
 const usersReducer = (
   state = initialState,
@@ -115,11 +112,6 @@ export const actions = {
     } as const),
 }
 
-type ActionsTypes = InferActionsTypes<typeof actions>
-
-type DispatchType = Dispatch<ActionsTypes>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
-
 export const getUsersThunkCreator = (
   currentPage: number,
   pageSize: number
@@ -163,11 +155,11 @@ export const followUserThunkCreator = (userId: number): ThunkType => async (
   // _followUnfollowFlow(dispatch, userId, "follow", followSuccess)
   dispatch(actions.toggleFollowingInProgress(userId))
 
-  const res = await usersAPI.follow(userId)
-  if (res.data.resultCode === ResultCodesEnum.Success) {
+  const data = await usersAPI.follow(userId)
+  if (data.resultCode === ResultCodesEnum.Success) {
     dispatch(actions.followSuccess(userId))
-  } else if (res.data.resultCode === ResultCodesEnum.Error) {
-    dispatch(displayError(res.data.messages[0]))
+  } else if (data.resultCode === ResultCodesEnum.Error) {
+    dispatch(displayError(data.messages[0]))
   }
 
   dispatch(actions.toggleFollowingInProgress(userId))
@@ -178,14 +170,18 @@ export const unfollowUserThunkCreator = (userId: number): ThunkType => async (
   // _followUnfollowFlow(dispatch, userId, "unfollow", unfollowSuccess)
   dispatch(actions.toggleFollowingInProgress(userId))
 
-  const res = await usersAPI.unfollow(userId)
-  if (res.data.resultCode === ResultCodesEnum.Success) {
+  const data = await usersAPI.unfollow(userId)
+  if (data.resultCode === ResultCodesEnum.Success) {
     dispatch(actions.unfollowSuccess(userId))
-  } else if (res.data.resultCode === ResultCodesEnum.Error) {
-    dispatch(displayError(res.data.messages[0]))
+  } else if (data.resultCode === ResultCodesEnum.Error) {
+    dispatch(displayError(data.messages[0]))
   }
 
   dispatch(actions.toggleFollowingInProgress(userId))
 }
 
 export default usersReducer
+
+type InitialStateType = typeof initialState
+type ActionsTypes = InferActionsTypes<typeof actions>
+type ThunkType = BaseThunkType<ActionsTypes>

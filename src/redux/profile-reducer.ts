@@ -1,6 +1,6 @@
-import { stopSubmit } from "redux-form"
-import { ThunkAction } from "redux-thunk"
-import { profileAPI, ResultCodesEnum } from "../api/api"
+import { FormAction, stopSubmit } from "redux-form"
+import { ResultCodesEnum } from "../api/api"
+import { profileAPI } from "../api/profile-api"
 import {
   PhotosType,
   PostType,
@@ -8,7 +8,7 @@ import {
   TProfileEditInfo,
 } from "../types/types"
 import { displayError } from "./app-reducer"
-import { AppStateType, InferActionsTypes } from "./redux-store"
+import { BaseThunkType, InferActionsTypes } from "./redux-store"
 
 const initialState = {
   posts: [
@@ -25,9 +25,8 @@ const initialState = {
   ] as PostType[],
   profile: null as ProfileType | null,
   status: "",
+  isProfileInfoEditModeOn: false,
 }
-
-type InitialStateType = typeof initialState
 
 const profileReducer = (
   state = initialState,
@@ -65,6 +64,11 @@ const profileReducer = (
           photos: action.photos,
         } as ProfileType,
       }
+    case "profile/SET_IS_PROFILE_EDIT_MODE_ON":
+      return {
+        ...state,
+        isProfileInfoEditModeOn: action.value,
+      }
     default:
       return state
   }
@@ -91,11 +95,12 @@ export const actions = {
       type: "profile/UPLOAD_PHOTO_SUCCESS",
       photos,
     } as const),
+  setIsProfileEditModeOn: (value: boolean) =>
+    ({
+      type: "profile/SET_IS_PROFILE_EDIT_MODE_ON",
+      value,
+    } as const),
 }
-
-type ActionsTypes = InferActionsTypes<typeof actions>
-
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
 export const getProfileThunk = (userId: number): ThunkType => async (
   dispatch
@@ -109,7 +114,7 @@ export const getUserStatus = (userId: number): ThunkType => async (
   const res = await profileAPI.getUserStatus(userId)
   if (typeof res === "string") {
     dispatch(actions.setStatus(res))
-  } else if (typeof res === typeof {}) {
+  } else {
     return Promise.reject(res.message)
   }
 }
@@ -123,7 +128,7 @@ export const updateUserStatus = (status: string): ThunkType => async (
     dispatch(displayError(data.messages[0]))
   }
 }
-export const uploadPhoto = (image: string): ThunkType => async (dispatch) => {
+export const uploadPhoto = (image: File): ThunkType => async (dispatch) => {
   const data = await profileAPI.uploadPhoto(image)
   if (data.resultCode === ResultCodesEnum.Success) {
     dispatch(actions.uploadPhotoSuccess(data.data.photos))
@@ -168,13 +173,14 @@ const _composeObject = (arr: string[], value: string): Object => {
 }
 //**********SHITCODE ENDS*************SHIIIIIIIIIIIT COOOOOOOODEEEE!!!!!!!!!! MUST EDIT THIS SHIT LATER!!!!!!!!!!!!!!!!!
 
-export const saveProfile = (info: TProfileEditInfo) => async (
-  dispatch: any,
-  getState: () => AppStateType
+export const saveProfile = (info: TProfileEditInfo): ThunkType => async (
+  dispatch,
+  getState
 ) => {
   const data = await profileAPI.updateProfileInfo(info)
   if (data.resultCode === ResultCodesEnum.Success) {
     dispatch(getProfileThunk(getState().auth.userId!))
+    dispatch(actions.setIsProfileEditModeOn(false))
   } else {
     const errorMessage = data.messages[0]
 
@@ -190,3 +196,7 @@ export const saveProfile = (info: TProfileEditInfo) => async (
 }
 
 export default profileReducer
+
+export type InitialStateType = typeof initialState
+type ActionsTypes = InferActionsTypes<typeof actions>
+type ThunkType = BaseThunkType<ActionsTypes | FormAction>

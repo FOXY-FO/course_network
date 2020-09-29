@@ -22,7 +22,7 @@ const initialState = {
       id: 3,
       name: "Liza",
     },
-  ] as Array<UserType>,
+  ] as UserType[],
   messages: [
     {
       id: 1,
@@ -36,10 +36,8 @@ const initialState = {
       id: 3,
       text: "I'm fine, thank you",
     },
-  ] as Array<MessageType>,
+  ] as MessageType[],
 }
-
-type InitialStateType = typeof initialState
 
 const dialogsReducer = (
   state = initialState,
@@ -71,6 +69,7 @@ export const actions = {
     } as const),
 }
 
-type ActionsTypes = InferActionsTypes<typeof actions>
-
 export default dialogsReducer
+
+type InitialStateType = typeof initialState
+type ActionsTypes = InferActionsTypes<typeof actions>

@@ -1,13 +1,10 @@
-import { ThunkAction } from "redux-thunk"
 import { getUserAuthData } from "./auth-reducer"
-import { AppStateType, InferActionsTypes } from "./redux-store"
+import { InferActionsTypes, BaseThunkType } from "./redux-store"
 
 const initialState = {
   initialized: false,
   globalError: null as string | null,
 }
-
-type InitialStateType = typeof initialState
 
 const appReducer = (
   state = initialState,
@@ -41,21 +38,16 @@ export const actions = {
     } as const),
 }
 
-type ActionsTypes = InferActionsTypes<typeof actions>
-
-export const initializeApp = (): ThunkAction<
-  Promise<void>,
-  AppStateType,
-  unknown,
-  ActionsTypes
-> => async (dispatch) => {
+export const initializeApp = (): BaseThunkType<ActionsTypes> => async (
+  dispatch
+) => {
   const promise = dispatch(getUserAuthData())
   await Promise.all([promise])
   dispatch(actions.initializingSuccess())
 }
 export const displayError = (
   error: string | null
-): ThunkAction<void, AppStateType, unknown, ActionsTypes> => (dispatch) => {
+): BaseThunkType<ActionsTypes, void> => (dispatch) => {
   dispatch(actions.setErrorMessage(error))
   setTimeout(() => {
     dispatch(actions.setErrorMessage(null))
@@ -63,3 +55,6 @@ export const displayError = (
 }
 
 export default appReducer
+
+export type InitialStateType = typeof initialState
+type ActionsTypes = InferActionsTypes<typeof actions>
