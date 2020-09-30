@@ -1,4 +1,3 @@
-import { AppStateType } from "./redux-store"
 import profileReducer, { actions, InitialStateType } from "./profile-reducer"
 
 let state: InitialStateType = {
@@ -16,6 +15,7 @@ let state: InitialStateType = {
   ],
   profile: null,
   status: "",
+  isProfileInfoEditModeOn: false,
 }
 
 it("posts' length should be incremented", () => {

@@ -34,7 +34,6 @@ type MapDispatchType = {
   displayError: (message: string) => void
 }
 type OwnProps = {}
-
 type Props = MapStateType & MapDispatchType & OwnProps
 
 const App: FC<Props> = ({ initialized, initializeApp, displayError }) => {

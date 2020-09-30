@@ -20,9 +20,13 @@ const ProfileData: FC<Props> = ({
   },
   status,
   isOwner,
-  goToEditMode = () => {},
+  goToEditMode,
 }) => {
-  const contactsArray = Object.entries(contacts)
+  const contactsFilteredArray = Object.entries(contacts).filter(([, value]) => {
+    const res = value?.trim()
+
+    return res
+  })
 
   return (
     <>
@@ -54,10 +58,10 @@ const ProfileData: FC<Props> = ({
         </div>
       )}
 
-      {contactsArray.length !== 0 && (
+      {contactsFilteredArray.length && (
         <div>
           <div>Contacts:</div>
-          {contactsArray.map(([key, value]) => (
+          {contactsFilteredArray.map(([key, value]) => (
             <Contact key={key} contactTitle={key} contactValue={value} />
           ))}
         </div>
