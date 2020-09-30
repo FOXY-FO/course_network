@@ -1,9 +1,15 @@
-import React from "react"
+import React, { FC } from "react"
 import { Link } from "react-router-dom"
 import s from "./User.module.scss"
 import noImage from "../../../assets/img/no-user.jpg"
+import { OwnProps as Props } from "./UserContainer"
 
-let User = ({
+type FunctionProps = {
+  follow: (id: number) => void
+  unfollow: (id: number) => void
+}
+
+const User: FC<Props & FunctionProps> = ({
   id,
   photos,
   follow,
@@ -11,26 +17,26 @@ let User = ({
   unfollow,
   name,
   status,
-  likesCount,
   followingInProgress,
+  uniqueUrlName,
 }) => {
   return (
     <div>
       <div>
-        <Link to={`/profile/${id}`} className={s.image}>
+        <Link to={uniqueUrlName || `/profile/${id}`} className={s.image}>
           <img src={photos.small ? photos.small : noImage} alt="" />
         </Link>
         {followed ? (
           <button
             onClick={() => unfollow(id)}
-            disabled={followingInProgress.find((userId) => userId === id)}
+            disabled={followingInProgress.some((userId) => userId === id)}
           >
             unfollow
           </button>
         ) : (
           <button
             onClick={() => follow(id)}
-            disabled={followingInProgress.find((userId) => userId === id)}
+            disabled={followingInProgress.some((userId) => userId === id)}
           >
             follow
           </button>
@@ -39,7 +45,6 @@ let User = ({
       <div>
         <div>name: {name}</div>
         <div>status: {status}</div>
-        <div>likes: {likesCount}</div>
       </div>
     </div>
   )

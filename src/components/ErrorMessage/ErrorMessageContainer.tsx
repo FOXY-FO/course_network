@@ -1,4 +1,4 @@
-import React, { memo, FC } from "react"
+import React, { memo, FC, ComponentType } from "react"
 import { connect } from "react-redux"
 import { compose } from "redux"
 import { AppStateType } from "../../redux/redux-store"
@@ -28,7 +28,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
   message: state.app.globalError,
 })
 
-export default compose(
+export default compose<ComponentType<OwnPropsType>>(
   connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
     mapStateToProps,
     { setErrorMessage: actions.setErrorMessage }

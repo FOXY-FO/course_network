@@ -1,8 +1,13 @@
-import React from "react"
+import React, { FC } from "react"
 import s from "./Post.module.scss"
 import noUser from "../../../assets/img/no-user.jpg"
 
-const Post = ({ children, likesCount, image = noUser }) => {
+type Props = {
+  likesCount: number
+  image?: string
+}
+
+const Post: FC<Props> = ({ children, likesCount, image = noUser }) => {
   return (
     <div>
       <div className={s.post}>

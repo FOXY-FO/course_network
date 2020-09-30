@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from "react"
+import React, { useEffect, memo, FC, ComponentType } from "react"
 import { compose } from "redux"
 import { connect } from "react-redux"
 import { getUsersThunkCreator } from "../../redux/users-reducer"
@@ -12,8 +12,19 @@ import {
 } from "../../redux/selectors/users-selectors"
 import Users from "./Users"
 import Preloader from "../UI/Preloader/Preloader"
+import { AppStateType } from "../../redux/redux-store"
 
-const UsersAPIComponent = ({
+type MapStateType = ReturnType<typeof mapStateToProps>
+
+type MapDispatchType = {
+  getUsersThunkCreator: (page: number, pageSize: number) => void
+}
+
+type OwnProps = {}
+
+type Props = MapStateType & MapDispatchType & OwnProps
+
+const UsersAPIComponent: FC<Props> = ({
   isFetching,
   getUsersThunkCreator,
   currentPage,
@@ -24,7 +35,7 @@ const UsersAPIComponent = ({
     getUsersThunkCreator(currentPage, pageSize)
   }, [currentPage, pageSize, getUsersThunkCreator])
 
-  const onPageChange = (page) => {
+  const onPageChange = (page: number) => {
     getUsersThunkCreator(page, pageSize)
   }
 
@@ -40,7 +51,7 @@ const UsersAPIComponent = ({
   )
 }
 
-let mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
   users: getUsers(state),
   totalUsersCount: getTotalUsersCount(state),
   pageSize: getPageSize(state),
@@ -49,7 +60,10 @@ let mapStateToProps = (state) => ({
   isFetching: getIsFetching(state),
 })
 
-export default compose(
-  connect(mapStateToProps, { getUsersThunkCreator }),
+export default compose<ComponentType<OwnProps>>(
+  connect<MapStateType, MapDispatchType, OwnProps, AppStateType>(
+    mapStateToProps,
+    { getUsersThunkCreator }
+  ),
   memo
 )(UsersAPIComponent)

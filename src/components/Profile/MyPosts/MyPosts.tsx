@@ -1,8 +1,13 @@
-import React from "react"
+import React, { FC } from "react"
 import Post from "../../UI/Post/Post"
 import NewPostContainer from "../../UI/NewPost/NewPostContainer"
+import { PostType } from "../../../types/types"
 
-const MyPosts = ({ posts }) => {
+type Props = {
+  posts: PostType[]
+}
+
+const MyPosts: FC<Props> = ({ posts }) => {
   return (
     <div>
       <NewPostContainer />

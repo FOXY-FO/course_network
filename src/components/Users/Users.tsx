@@ -1,8 +1,18 @@
-import React from "react"
+import React, { FC } from "react"
 import UsersContainer from "./User/UserContainer"
 import Pagination from "../UI/Pagination/Pagination"
+import { UserType } from "../../types/types"
 
-let Users = ({
+type Props = {
+  users: UserType[]
+  totalUsersCount: number
+  followingInProgress: number[]
+  pageSize: number
+  currentPage: number
+  onPageChange: (page: number) => void
+}
+
+const Users: FC<Props> = ({
   users,
   totalUsersCount,
   pageSize,

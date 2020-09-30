@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from "react"
+import React, { useEffect, memo, FC, ComponentType } from "react"
 import { connect, Provider } from "react-redux"
 import {
   Route,
@@ -9,7 +9,7 @@ import {
 } from "react-router-dom"
 import { compose } from "redux"
 
-import store from "../../redux/redux-store"
+import store, { AppStateType } from "../../redux/redux-store"
 import "./App.scss"
 import { initializeApp } from "../../redux/app-reducer"
 import { getInitialized } from "../../redux/selectors/app-selectors"
@@ -24,11 +24,23 @@ import MusicContainer from "../Music/MusicContainer"
 import NewsContainer from "../News/NewsContainer"
 import Preloader from "../UI/Preloader/Preloader"
 import ErrorMessageContainer from "../ErrorMessage/ErrorMessageContainer"
-const LoginContainer = React.lazy(() => import("../Login/LoginContainer"))
-const DialogsContainer = React.lazy(() => import("../Dialogs/DialogsContainer"))
-const ProfileContainer = React.lazy(() => import("../Profile/ProfileContainer"))
+import LoginContainer from "../Login/LoginContainer"
+import DialogsContainer from "../Dialogs/DialogsContainer"
+import ProfileContainer from "../Profile/ProfileContainer"
 
-const App = ({ initialized, initializeApp }) => {
+// const LoginContainer = React.lazy(() => import("../Login/LoginContainer"))
+// const DialogsContainer = React.lazy(() => import("../Dialogs/DialogsContainer"))
+// const ProfileContainer = React.lazy(() => import("../Profile/ProfileContainer"))
+
+type MapStateType = ReturnType<typeof mapStateToProps>
+type MapDispatchType = {
+  initializeApp: () => void
+}
+type OwnProps = {}
+
+type Props = MapStateType & MapDispatchType & OwnProps
+
+const App: FC<Props> = ({ initialized, initializeApp }) => {
   useEffect(() => {
     initializeApp()
     window.addEventListener("unhandledrejection", catchAllUnhandledErrors)
@@ -68,17 +80,20 @@ const App = ({ initialized, initializeApp }) => {
   )
 }
 
-let mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
   initialized: getInitialized(state),
 })
 
-let AppContainer = compose(
+const AppContainer = compose<ComponentType>(
   withRouter,
-  connect(mapStateToProps, { initializeApp }),
+  connect<MapStateType, MapDispatchType, OwnProps, AppStateType>(
+    mapStateToProps,
+    { initializeApp }
+  ),
   memo
 )(App)
 
-let AppWithRouter = () => {
+const AppWithRouter = () => {
   return (
     <React.StrictMode>
       <BrowserRouter>
