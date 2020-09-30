@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo, FC } from "react"
+import React, { useState, useEffect, memo, FC, ComponentType } from "react"
 import { compose } from "redux"
 import { connect } from "react-redux"
 import { withRouter, Redirect, RouteComponentProps } from "react-router-dom"
@@ -79,7 +79,7 @@ const mapStateToProps = (state: AppStateType): TMapStateProps => ({
   isProfileInfoEditModeOn: state.profilePage.isProfileInfoEditModeOn,
 })
 
-export default compose(
+export default compose<ComponentType>(
   connect<TMapStateProps, TMapDispatchProps, {}, AppStateType>(
     mapStateToProps,
     {

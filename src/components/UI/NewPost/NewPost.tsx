@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import { reduxForm, Field, InjectedFormProps } from "redux-form"
+import { reduxForm, InjectedFormProps } from "redux-form"
 import { required, maxLengthCreator } from "../../../utils/validators"
 import { createField } from "../FormControls/FormControls"
 import Textarea from "../FormControls/Textarea/Textarea"
@@ -15,11 +15,6 @@ const NewPostForm: FC<InjectedFormProps<FormValues>> = (props) => {
         [required, maxLength150],
         Textarea
       )}
-      <Field
-        name="newPost"
-        component={Textarea}
-        validate={[required, maxLength150]}
-      />
       <button type="submit">Add post</button>
     </form>
   )

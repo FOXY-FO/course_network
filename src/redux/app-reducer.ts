@@ -31,11 +31,12 @@ export const actions = {
     ({
       type: "app/INITIALIZING_SUCCESS",
     } as const),
-  setErrorMessage: (globalError: string | null) =>
-    ({
+  setErrorMessage: (globalError: string | null) => {
+    return {
       type: "app/SET_GLOBAL_ERROR",
       payload: { globalError },
-    } as const),
+    } as const
+  },
 }
 
 export const initializeApp = (): BaseThunkType<ActionsTypes> => async (

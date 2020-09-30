@@ -1,4 +1,4 @@
-import React, { FC, memo } from "react"
+import React, { ComponentType, FC, memo } from "react"
 import { connect } from "react-redux"
 import { compose } from "redux"
 import { AppStateType } from "../../redux/redux-store"
@@ -29,7 +29,7 @@ const mapStateToProps = (state: AppStateType): TMapStateProps => ({
   captchaURL: state.auth.captchaURL,
 })
 
-export default compose(
+export default compose<ComponentType>(
   connect(mapStateToProps, { login }),
   withProfileRedirect,
   memo
