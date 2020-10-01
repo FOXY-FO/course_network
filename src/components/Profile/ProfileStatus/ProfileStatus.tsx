@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC, ReactNode } from "react"
+import React, { useState, useEffect, FC } from "react"
 import s from "./ProfileStatus.module.scss"
 
 type Props = {
@@ -6,7 +6,6 @@ type Props = {
   status: string
   getUserStatus: (userId: number) => void
   updateUserStatus: (status: string) => void
-  children?: React.ReactNode
 }
 
 const ProfileStatus: FC<Props> = ({
