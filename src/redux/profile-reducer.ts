@@ -138,42 +138,6 @@ export const uploadPhoto = (image: File): ThunkType => async (dispatch) => {
   }
 }
 
-const _takePropsFromString = (str: string): string[] => {
-  const strArray = str.split("")
-  const leftBound = strArray.indexOf("(")
-  const rightBound = strArray.indexOf(")")
-  return strArray
-    .filter((char, index) => index > leftBound && index < rightBound)
-    .join("")
-    .split("->")
-    .map((prop) => {
-      const firstChar = prop.charAt(0).toLowerCase()
-      const propCopy = prop.split("")
-      propCopy[0] = firstChar
-      return propCopy.join("")
-    })
-}
-
-//********SHITCODE STARTS******************SHIIIIIIIIIIIT COOOOOOOODEEEE!!!!!!!!!! MUST EDIT THIS SHIT LATER!!!!!!!!!!!!!!!!!
-const _composeObject = (arr: string[], value: string): Object => {
-  const result = arr.reduce((acc, item, index, array) => {
-    if (array.length === 1) {
-      return { [item]: value }
-    }
-
-    if (index === array.length - 1) {
-      return { [array[index - 1]]: { [item]: value } }
-    }
-
-    if (index === 0) return { [item]: {} }
-
-    return { [array[index - 1]]: { [item]: {} } }
-  }, {})
-
-  return result
-}
-//**********SHITCODE ENDS*************SHIIIIIIIIIIIT COOOOOOOODEEEE!!!!!!!!!! MUST EDIT THIS SHIT LATER!!!!!!!!!!!!!!!!!
-
 export const saveProfile = (info: TProfileEditInfo): ThunkType => async (
   dispatch,
   getState
@@ -185,10 +149,7 @@ export const saveProfile = (info: TProfileEditInfo): ThunkType => async (
   } else {
     const errorMessage = data.messages[0]
 
-    const action = stopSubmit(
-      "edit-profile",
-      _composeObject(_takePropsFromString(errorMessage), errorMessage)
-    )
+    const action = stopSubmit("edit-profile", { _error: errorMessage })
 
     dispatch(action)
 

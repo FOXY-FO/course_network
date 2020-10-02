@@ -131,28 +131,9 @@ export const getUsersThunkCreator = (
   dispatch(actions.toggleFetching(false))
 }
 
-// const _followUnfollowFlow = async (
-//   dispatch: DispatchType,
-//   userId: number,
-//   apiMethod: "follow" | "unfollow",
-//   actionCreator: typeof followSuccess | typeof unfollowSuccess
-// ): Promise<void> => {
-//   dispatch(toggleFollowingInProgress(userId))
-
-//   const res = await usersAPI[apiMethod](userId)
-//   if (res.data.resultCode === ResultCodesEnum.Success) {
-//     dispatch(actionCreator(userId))
-//   } else if (res.data.resultCode === ResultCodesEnum.Error) {
-//     dispatch(displayError(res.data.messages[0]))
-//   }
-
-//   dispatch(toggleFollowingInProgress(userId))
-// }
-
 export const followUserThunkCreator = (userId: number): ThunkType => async (
   dispatch
 ) => {
-  // _followUnfollowFlow(dispatch, userId, "follow", followSuccess)
   dispatch(actions.toggleFollowingInProgress(userId))
 
   const data = await usersAPI.follow(userId)
@@ -167,7 +148,6 @@ export const followUserThunkCreator = (userId: number): ThunkType => async (
 export const unfollowUserThunkCreator = (userId: number): ThunkType => async (
   dispatch
 ) => {
-  // _followUnfollowFlow(dispatch, userId, "unfollow", unfollowSuccess)
   dispatch(actions.toggleFollowingInProgress(userId))
 
   const data = await usersAPI.unfollow(userId)
@@ -182,6 +162,6 @@ export const unfollowUserThunkCreator = (userId: number): ThunkType => async (
 
 export default usersReducer
 
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 type ActionsTypes = InferActionsTypes<typeof actions>
 type ThunkType = BaseThunkType<ActionsTypes>
