@@ -9,15 +9,21 @@ import {
   getCurrentPage,
   getFollowingInProgress,
   getIsFetching,
+  getFilter,
 } from "../../redux/selectors/users-selectors"
-import Users from "./Users"
+import Users, { SearchFiltersInitialValues } from "./Users"
 import Preloader from "../UI/Preloader/Preloader"
 import { AppStateType } from "../../redux/redux-store"
 
 type MapStateType = ReturnType<typeof mapStateToProps>
 
 type MapDispatchType = {
-  getUsersThunkCreator: (page: number, pageSize: number) => void
+  getUsersThunkCreator: (
+    page: number,
+    pageSize: number,
+    term: string,
+    friend: boolean
+  ) => void
 }
 
 type OwnProps = {}
@@ -29,14 +35,20 @@ const UsersAPIComponent: FC<Props> = ({
   getUsersThunkCreator,
   currentPage,
   pageSize,
+  filter,
   ...props
 }) => {
   useEffect(() => {
-    getUsersThunkCreator(currentPage, pageSize)
-  }, [currentPage, pageSize, getUsersThunkCreator])
+    getUsersThunkCreator(currentPage, pageSize, filter.term, filter.friend)
+  }, [currentPage, pageSize, getUsersThunkCreator, filter.term, filter.friend])
 
   const onPageChange = (page: number) => {
-    getUsersThunkCreator(page, pageSize)
+    getUsersThunkCreator(page, pageSize, filter.term, filter.friend)
+  }
+
+  const onFilterChange = (values: SearchFiltersInitialValues) => {
+    const friend = values.friend === "false" ? false : true
+    getUsersThunkCreator(1, pageSize, values.term, friend)
   }
 
   if (isFetching) return <Preloader />
@@ -47,6 +59,7 @@ const UsersAPIComponent: FC<Props> = ({
       pageSize={pageSize}
       currentPage={currentPage}
       onPageChange={onPageChange}
+      onFilterChange={onFilterChange}
     />
   )
 }
@@ -58,6 +71,7 @@ const mapStateToProps = (state: AppStateType) => ({
   currentPage: getCurrentPage(state),
   followingInProgress: getFollowingInProgress(state),
   isFetching: getIsFetching(state),
+  filter: getFilter(state),
 })
 
 export default compose<ComponentType<OwnProps>>(

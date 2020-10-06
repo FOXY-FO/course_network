@@ -35,3 +35,7 @@ export const getFollowingInProgress = createSelector(
 export const getIsFetching = createSelector(getUsersPage, (usersPage) => {
   return usersPage.isFetching
 })
+
+export const getFilter = createSelector(getUsersPage, (usersPage) => {
+  return usersPage.filter
+})
