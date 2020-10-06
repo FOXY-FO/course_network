@@ -1,5 +1,7 @@
 import React, { FC } from "react"
+import { useDispatch } from "react-redux"
 import { reduxForm, InjectedFormProps } from "redux-form"
+import { actions } from "../../../redux/profile-reducer"
 import { required, maxLengthCreator } from "../../../utils/validators"
 import { createField } from "../FormControls/FormControls"
 import Textarea from "../FormControls/Textarea/Textarea"
@@ -30,13 +32,11 @@ type FormValues = {
 
 type FormValuesKeys = Extract<keyof FormValues, string>
 
-type NewPostProps = {
-  addPost: (message: string) => void
-}
+export const NewPost: FC = () => {
+  const dispatch = useDispatch()
 
-const NewPost: FC<NewPostProps> = ({ addPost }) => {
   const onSubmit = (formData: FormValues) => {
-    addPost(formData.newPost)
+    dispatch(actions.addPost(formData.newPost))
   }
 
   return (
@@ -45,5 +45,3 @@ const NewPost: FC<NewPostProps> = ({ addPost }) => {
     </div>
   )
 }
-
-export default NewPost

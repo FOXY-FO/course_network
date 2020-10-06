@@ -1,31 +1,58 @@
-import React, { FC } from "react"
-import { Formik, Form, Field } from "formik"
+import React, { memo, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import cn from "classnames"
+import { getUsersThunkCreator } from "../../redux/users-reducer"
+import {
+  getCurrentPage,
+  getFilter,
+  getFollowingInProgress,
+  getIsFetching,
+  getPageSize,
+  getTotalUsersCount,
+  getUsers,
+} from "../../redux/selectors/users-selectors"
+import s from "./Users.module.scss"
+import {
+  SearchFilters,
+  SearchFiltersInitialValues,
+} from "./SearchFilters/SearchFilters"
+import Preloader from "../UI/Preloader/Preloader"
 import UsersContainer from "./User/UserContainer"
 import Pagination from "../UI/Pagination/Pagination"
-import { UserType } from "../../types/types"
-import { FilterType } from "../../redux/users-reducer"
 
-type Props = {
-  users: UserType[]
-  totalUsersCount: number
-  followingInProgress: number[]
-  pageSize: number
-  currentPage: number
-  onPageChange: (page: number) => void
-  onFilterChange: (values: SearchFiltersInitialValues) => void
-}
+export const Users = memo(() => {
+  const pageSize = useSelector(getPageSize)
+  const currentPage = useSelector(getCurrentPage)
+  const filter = useSelector(getFilter)
+  const totalUsersCount = useSelector(getTotalUsersCount)
+  const followingInProgress = useSelector(getFollowingInProgress)
+  const users = useSelector(getUsers)
+  const isFetching = useSelector(getIsFetching)
 
-const Users: FC<Props> = ({
-  users,
-  totalUsersCount,
-  pageSize,
-  currentPage,
-  followingInProgress,
-  onPageChange,
-  onFilterChange,
-}) => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getUsersThunkCreator(currentPage, pageSize, filter))
+  }, [dispatch, currentPage, pageSize, filter])
+
+  const onPageChange = (page: number) => {
+    dispatch(getUsersThunkCreator(page, pageSize, filter))
+  }
+
+  const onFilterChange = (values: SearchFiltersInitialValues) => {
+    dispatch(
+      getUsersThunkCreator(1, pageSize, {
+        ...values,
+        friend: values.friend === "false" ? false : true,
+      })
+    )
+  }
+
   return (
-    <>
+    <div className={s.content}>
+      <div className={cn(s.preloader, { [s.active]: isFetching })}>
+        <Preloader />
+      </div>
       <div style={{ marginBottom: "2rem" }}>
         <SearchFilters onFilterChange={onFilterChange} />
       </div>
@@ -42,48 +69,6 @@ const Users: FC<Props> = ({
           {...u}
         />
       ))}
-    </>
+    </div>
   )
-}
-
-type SearchFiltersProps = {
-  onFilterChange: (values: SearchFiltersInitialValues) => void
-}
-
-export type SearchFiltersInitialValues = Omit<FilterType, "friend"> & {
-  friend: string
-}
-
-const SearchFilters: FC<SearchFiltersProps> = ({ onFilterChange }) => {
-  const initialValues: SearchFiltersInitialValues = {
-    term: "",
-    friend: "false",
-  }
-  return (
-    <Formik
-      initialValues={initialValues}
-      validate={(values) => {
-        const errors: Partial<FilterType> = {}
-        return errors
-      }}
-      onSubmit={(values, { setSubmitting }) => {
-        onFilterChange(values)
-      }}
-    >
-      {({ isSubmitting }) => (
-        <Form>
-          <Field type="text" name="term" />
-          <Field as="select" name="friend">
-            <option value="false">All</option>
-            <option value="true">Following</option>
-          </Field>
-          <button type="submit" disabled={isSubmitting}>
-            Submit
-          </button>
-        </Form>
-      )}
-    </Formik>
-  )
-}
-
-export default Users
+})

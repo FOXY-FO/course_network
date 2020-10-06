@@ -5,12 +5,8 @@ export const getUsersPage = (state: AppStateType) => {
   return state.usersPage
 }
 
-export const getUsersSelector = createSelector(getUsersPage, (usersPage) => {
+export const getUsers = createSelector(getUsersPage, (usersPage) => {
   return usersPage.users
-})
-
-export const getUsers = createSelector(getUsersSelector, (users) => {
-  return users.filter((u) => true)
 })
 
 export const getTotalUsersCount = createSelector(getUsersPage, (usersPage) => {

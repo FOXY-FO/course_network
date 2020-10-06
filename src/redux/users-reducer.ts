@@ -132,18 +132,17 @@ export const actions = {
 export const getUsersThunkCreator = (
   currentPage: number,
   pageSize: number,
-  term: string,
-  friend: boolean
+  filter: FilterType
 ): ThunkType => async (dispatch) => {
   dispatch(actions.toggleFetching(true))
 
-  const data = await usersAPI.getUsers(currentPage, pageSize, term, friend)
+  const data = await usersAPI.getUsers(currentPage, pageSize, filter)
 
   if (!data.error) {
     dispatch(actions.setUsers(data.items!))
     dispatch(actions.setTotalUsersCount(data.totalCount))
     dispatch(actions.setCurrentPage(currentPage))
-    dispatch(actions.setFilter({ term, friend }))
+    dispatch(actions.setFilter(filter))
   } else {
     dispatch(displayError(data.error))
   }

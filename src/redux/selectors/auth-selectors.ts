@@ -20,3 +20,7 @@ export const getLogin = createSelector(getAuth, (auth) => {
 export const getIsAuth = createSelector(getAuth, (auth) => {
   return auth.isAuth
 })
+
+export const getCaptchaURL = createSelector(getAuth, (auth) => {
+  return auth.captchaURL
+})

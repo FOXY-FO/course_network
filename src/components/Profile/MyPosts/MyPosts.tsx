@@ -1,16 +1,15 @@
 import React, { FC } from "react"
+import { useSelector } from "react-redux"
+import { getPosts } from "../../../redux/selectors/profile-selectors"
 import Post from "../../UI/Post/Post"
-import NewPostContainer from "../../UI/NewPost/NewPostContainer"
-import { PostType } from "../../../types/types"
+import { NewPost } from "../../UI/NewPost/NewPost"
 
-type Props = {
-  posts: PostType[]
-}
+export const MyPosts: FC = () => {
+  const posts = useSelector(getPosts)
 
-const MyPosts: FC<Props> = ({ posts }) => {
   return (
     <div>
-      <NewPostContainer />
+      <NewPost />
       <div>
         {posts.map(({ id, text, likesCount }) => (
           <Post key={id} likesCount={likesCount}>
@@ -21,5 +20,3 @@ const MyPosts: FC<Props> = ({ posts }) => {
     </div>
   )
 }
-
-export default MyPosts

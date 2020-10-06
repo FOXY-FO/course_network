@@ -16,7 +16,7 @@ import { getInitialized } from "../../redux/selectors/app-selectors"
 import withSuspense from "../../hoc/withSuspense"
 
 import NavBar from "../UI/NavBar/NavBar"
-import UsersContainer from "../Users/UsersContainer"
+import { Users } from "../Users/Users"
 import HeaderContainer from "../UI/Header/HeaderContainer"
 import SettingsContainer from "../Settings/SettingsContainer"
 import MusicContainer from "../Music/MusicContainer"
@@ -24,9 +24,15 @@ import NewsContainer from "../News/NewsContainer"
 import Preloader from "../UI/Preloader/Preloader"
 import ErrorMessageContainer from "../ErrorMessage/ErrorMessageContainer"
 
-const LoginContainer = React.lazy(() => import("../Login/LoginContainer"))
+const Login = React.lazy(() =>
+  import("../../pages/LoginPage/LoginPage").then(({ LoginPage: Login }) => ({
+    default: Login,
+  }))
+)
 const DialogsContainer = React.lazy(() => import("../Dialogs/DialogsContainer"))
-const ProfileContainer = React.lazy(() => import("../Profile/ProfileContainer"))
+const Profile = React.lazy(() =>
+  import("../Profile/Profile").then(({ Profile }) => ({ default: Profile }))
+)
 
 type MapStateType = ReturnType<typeof mapStateToProps>
 type MapDispatchType = {
@@ -67,16 +73,13 @@ const App: FC<Props> = ({ initialized, initializeApp, displayError }) => {
       <main className="main">
         <Switch>
           <Route exact path="/" render={() => <Redirect to="/profile" />} />
-          <Route path="/login" component={withSuspense(LoginContainer)} />
-          <Route
-            path="/profile/:userId?"
-            component={withSuspense(ProfileContainer)}
-          />
+          <Route path="/login" component={withSuspense(Login)} />
+          <Route path="/profile/:userId?" component={withSuspense(Profile)} />
           <Route path="/dialogs" component={withSuspense(DialogsContainer)} />
           <Route path="/news" component={NewsContainer} />
           <Route path="/music" component={MusicContainer} />
           <Route path="/settings" component={SettingsContainer} />
-          <Route path="/users" component={UsersContainer} />
+          <Route path="/users" component={Users} />
           <Route path="*" render={() => <div>404 page! Not found</div>} />
         </Switch>
       </main>

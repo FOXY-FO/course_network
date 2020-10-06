@@ -1,30 +1,28 @@
 import React, { useState, useEffect, FC } from "react"
 import s from "./ProfileStatus.module.scss"
+import { getUserStatus, updateUserStatus } from "../../../redux/profile-reducer"
+import { useDispatch } from "react-redux"
 
 type Props = {
   currentUserId: number | null
   status: string
-  getUserStatus: (userId: number) => void
-  updateUserStatus: (status: string) => void
 }
 
-const ProfileStatus: FC<Props> = ({
-  getUserStatus,
-  currentUserId,
-  ...props
-}) => {
+const ProfileStatus: FC<Props> = ({ currentUserId, status: propsStatus }) => {
   const [editMode, setEditMode] = useState(false)
-  const [status, setStatus] = useState(props.status)
+  const [status, setStatus] = useState(propsStatus)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (currentUserId !== null) {
-      getUserStatus(currentUserId)
+      dispatch(getUserStatus(currentUserId))
     }
-  }, [currentUserId, getUserStatus])
+  }, [currentUserId, dispatch])
 
   useEffect(() => {
-    setStatus(props.status)
-  }, [props.status])
+    setStatus(propsStatus)
+  }, [propsStatus])
 
   const activateEditMode = () => {
     setEditMode(true)
@@ -32,7 +30,7 @@ const ProfileStatus: FC<Props> = ({
 
   const deactivateEditMode = () => {
     setEditMode(false)
-    props.updateUserStatus(status)
+    dispatch(updateUserStatus(status))
   }
 
   const onStatusChange = (status: string) => {

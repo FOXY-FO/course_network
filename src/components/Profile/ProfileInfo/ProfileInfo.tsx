@@ -1,32 +1,45 @@
-import React, { ChangeEvent, FC } from "react"
+import React, { ChangeEvent, FC, memo } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import s from "./ProfileInfo.module.scss"
+import {
+  uploadPhoto,
+  saveProfile,
+  actions,
+} from "../../../redux/profile-reducer"
 import { TProfileEditInfo } from "../../../types/types"
-import { Props } from "../Profile"
+import {
+  getIsProfileInfoEditModeOn,
+  getProfile,
+  getStatus,
+} from "../../../redux/selectors/profile-selectors"
 import noImage from "../../../assets/img/no-user.jpg"
 import Preloader from "../../UI/Preloader/Preloader"
 import ProfileStatus from "../ProfileStatus/ProfileStatus"
 import ProfileDataForm from "./ProfileDataForm/ProfileDataForm"
 import ProfileData from "./ProfileData/ProfileData"
 
-const ProfileInfo: FC<Props> = ({
-  profile,
-  uploadPhoto,
-  isOwner,
-  saveProfile,
-  isProfileInfoEditModeOn,
-  setProfileInfoEditMode,
-  ...props
-}) => {
+type Props = {
+  isOwner: boolean
+  currentUserId: number | null
+}
+
+export const ProfileInfo: FC<Props> = memo(({ isOwner, currentUserId }) => {
+  const profile = useSelector(getProfile)
+  const isProfileInfoEditModeOn = useSelector(getIsProfileInfoEditModeOn)
+  const status = useSelector(getStatus)
+
+  const dispatch = useDispatch()
+
   const onUploadPhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
-      uploadPhoto(e.target.files[0])
+      dispatch(uploadPhoto(e.target.files[0]))
     }
   }
 
   if (!profile) return <Preloader />
 
   const onEditProfileSubmit = (formData: TProfileEditInfo) => {
-    saveProfile(formData)
+    dispatch(saveProfile(formData))
   }
 
   return (
@@ -46,15 +59,15 @@ const ProfileInfo: FC<Props> = ({
         </div>
       </div>
       <div>
-        <ProfileStatus {...props} />
+        <ProfileStatus status={status} currentUserId={currentUserId} />
       </div>
       <div className={s.info}>
         {!isProfileInfoEditModeOn ? (
           <ProfileData
-            goToEditMode={() => setProfileInfoEditMode(true)}
+            goToEditMode={() => dispatch(actions.setIsProfileEditModeOn(true))}
             isOwner={isOwner}
             profile={profile}
-            status={props.status}
+            status={status}
           />
         ) : (
           <ProfileDataForm
@@ -66,6 +79,4 @@ const ProfileInfo: FC<Props> = ({
       </div>
     </div>
   )
-}
-
-export default ProfileInfo
+})

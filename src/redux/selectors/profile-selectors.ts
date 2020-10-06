@@ -16,3 +16,10 @@ export const getProfile = createSelector(getProfilePage, (profilePage) => {
 export const getStatus = createSelector(getProfilePage, (profilePage) => {
   return profilePage.status
 })
+
+export const getIsProfileInfoEditModeOn = createSelector(
+  getProfilePage,
+  (profilePage) => {
+    return profilePage.isProfileInfoEditModeOn
+  }
+)

@@ -5,10 +5,14 @@ import {
   maxLengthCreator,
   minLengthCreator,
 } from "../../utils/validators"
-import { createField } from "../UI/FormControls/FormControls"
-import { TProps } from "./LoginContainer"
-import s from "../UI/FormControls/FormControls.module.scss"
-import Input from "../UI/FormControls/Input/Input"
+import { createField } from "../../components/UI/FormControls/FormControls"
+import s from "../../components/UI/FormControls/FormControls.module.scss"
+import s2 from "../../components/UI/FormControls/FormControls.module.scss"
+import Input from "../../components/UI/FormControls/Input/Input"
+import { useDispatch, useSelector } from "react-redux"
+import { getCaptchaURL } from "../../redux/selectors/auth-selectors"
+import { login } from "../../redux/auth-reducer"
+import withProfileRedirect from "../../hoc/withProfileRedirect"
 
 let maxLength50 = maxLengthCreator(50)
 let minLength7 = minLengthCreator(7)
@@ -53,8 +57,8 @@ const LoginForm: FC<
         </label>
       </div>
       {captchaURL && (
-        <div className={s.captcha}>
-          <div className={s.captchaImage}>
+        <div className={s2.captcha}>
+          <div className={s2.captchaImage}>
             <img src={captchaURL} alt="captcha" />
           </div>
           {createField<LoginFormDataKeysType>(
@@ -86,20 +90,23 @@ type LoginFormDataType = {
 
 type LoginFormDataKeysType = Extract<keyof LoginFormDataType, string>
 
-const Login: FC<TProps> = ({ login, captchaURL }) => {
-  const onSubmit = (formData: LoginFormDataType) => {
-    const { email, password, rememberMe, captcha } = formData
+export const LoginPage: FC = withProfileRedirect(
+  memo(() => {
+    const captchaURL = useSelector(getCaptchaURL)
+    const dispatch = useDispatch()
 
-    login(email, password, rememberMe, captcha)
-  }
+    const onSubmit = (formData: LoginFormDataType) => {
+      const { email, password, rememberMe, captcha } = formData
 
-  return (
-    <div>
-      <h1>LOGIN</h1>
+      dispatch(login(email, password, rememberMe, captcha))
+    }
 
-      <LoginFormRedux onSubmit={onSubmit} captchaURL={captchaURL} />
-    </div>
-  )
-}
+    return (
+      <div>
+        <h1>LOGIN</h1>
 
-export default memo(Login)
+        <LoginFormRedux onSubmit={onSubmit} captchaURL={captchaURL} />
+      </div>
+    )
+  })
+)
